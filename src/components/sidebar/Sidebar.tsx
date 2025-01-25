@@ -10,7 +10,7 @@ const Sidebar: React.FC = () => {
 	]
 
 	return (<div className="h-[97dvh] m-3 p-3 rounded-2xl"> 
-		<div className="border-b border-b-slate-700 py-2">
+		<div className="border-b border-b-dark py-2">
 			<SidebarHeader />
 		</div>
 		<div>

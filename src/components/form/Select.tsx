@@ -19,9 +19,9 @@ const Select: React.FC<SelectProps> = ({
 
     return (
         <div className="flex flex-col w-full">
-            <label className="font-regular text-zinc-700 ml-3 text-xl" htmlFor={name}>{placeholder} :</label>
+            <label className="font-body text-dark text-base mb-2" htmlFor={name}>{placeholder}</label>
             <select
-                className="w-full h-14 p-3 text-xl border rounded-lg bg-white"
+                className="w-full h-11 p-2 border rounded-lg bg-light"
                 {...formControl}
                 aria-invalid={error ? "true" : "false"}
             >
@@ -29,12 +29,12 @@ const Select: React.FC<SelectProps> = ({
                     -
                 </option>
                 {options.map((option) => (
-                    <option className="w-full font-regular" key={option.value} value={option.value}>
+                    <option className="w-full font-body" key={option.value} value={option.value}>
                         {option.label}
                     </option>
                 ))}
             </select>
-            <span role="alert" className="font-regular text-xl text-red-500">
+            <span role="alert" className="font-body text-xl text-red-500">
                 {error && error.message?.toString()}
             </span>
         </div>

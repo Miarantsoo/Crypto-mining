@@ -35,17 +35,17 @@ const Signup = () => {
             animate={{ opacity: 1, rotateY: [180, 360] }}
             exit={{ rotateX: [0, 90] }}
             transition={{ duration: 0.5 }}
-            className="bg-zinc-50 w-full flex items-center flex-col justify-center h-10/12 rounded-2xl p-5 shadow-2xl"
+            className="bg-light w-full flex items-center flex-col justify-center h-10/12 rounded-2xl p-5 shadow-2xl"
         >
-            <span className="font-bold text-4xl m-10 text-zinc-500">Inscrivez vous avec Connectify</span>
+            <span className="font-title uppercase text-4xl mx-5 mb-2 mt-5 text-dark">Inscrivez vous avec Connectify</span>
             <form
-                className="w-full flex items-center justify-center flex-col gap-5 p-10"
+                className="w-full flex items-center justify-center p-5 gap-1 flex-col"
                 onSubmit={handleSubmit(onSubmit)}>
-                <div className="flex flex-row gap-1">
+                <div className="w-full flex flex-row gap-1">
                     <Input
                         name="prenom"
                         type="text"
-                        placeholder="Prenom"
+                        placeholder="Prénom"
                         formControl={register("prenom", { required: "Le prénom est requis" })}
                         errors={errors}
                     />
@@ -55,7 +55,7 @@ const Signup = () => {
                         placeholder="Nom"
                     />
                 </div>
-                <div className="flex flex-row gap-1 w-full">
+                <div className="w-full flex flex-row gap-1">
                     <Input
                         name="dateNaissance"
                         type="date"
@@ -90,26 +90,30 @@ const Signup = () => {
 					placeholder="Email" 
 					name="mail" 
 					errors={errors}/>
-				<Input 
-					formControl={register("motDePasse", {
-						required: "Le mot de passe est requis"
-					})}
-					type="password"
-					placeholder="Password"
-					name="motDePasse"
-					errors={errors}/>
-				<Input 
-					formControl={register("verification", {
-						required: "La vérification du mot de passe est requise"
-					})}
-					type="password"
-					placeholder="Password verification"
-					name="verification"
-					errors={errors}/>
+                {/* <div className="w-full flex flex-row gap-1"> */}
+                    <Input 
+                        formControl={register("motDePasse", {
+                            required: "Le mot de passe est requis"
+                        })}
+                        type="password"
+                        placeholder="Password"
+                        name="motDePasse"
+                        errors={errors}/>
+                    <Input 
+                        formControl={register("verification", {
+                            required: "La vérification du mot de passe est requise"
+                        })}
+                        type="password"
+                        placeholder="Password verification"
+                        name="verification"
+                        errors={errors}/>  
+                {/* </div> */}
                 
-                <button className="bg-slate-700 p-5 rounded-3xl w-1/5 h-16 flex items-center justify-center"><FaArrowRight className="text-white text-5xl" /></button>
+               <div className="flex w-full align-center justify-end my-2">
+					<button className="bg-main p-5 font-body rounded-3xl w-fit h-10 flex items-center justify-center text-light">Continuer <FaArrowRight className="text-light text-2xl ml-2" /></button>
+				</div>
             </form>
-            <Link className="underline font-regular text-zinc-700" to={"/login"}>Vous avez déjà un compte? Connectez-vous ici</Link>
+            <Link className="underline font-body text-main" to={"/login"}>Vous avez déjà un compte? Connectez-vous ici</Link>
         </motion.div>
     );
 };
