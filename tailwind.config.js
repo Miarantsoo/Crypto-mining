@@ -8,6 +8,11 @@ export default {
       fontFamily: {
         regular: ["regular"],
         bold: ["bold"]
+      },
+      colors: {
+        'light' : {
+          DEFAULT: '#fffdfa',
+        }
       }
     },
   },
