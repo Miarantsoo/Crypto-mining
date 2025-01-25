@@ -2,6 +2,7 @@ import { motion } from "framer-motion"
 import { Link } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form"
 import { FaArrowRight } from "react-icons/fa6"
+import Input from "./form/Input";
 
 type FormFields = {
 	email: string,
@@ -35,28 +36,26 @@ const Login: React.FC = () => {
 			<form 
 				className="w-full flex items-center justify-center flex-col gap-5 p-10"
 				onSubmit={handleSubmit(onSubmit)}>
-				<input 
-					{...register("email", {
+				<Input 
+					formControl={register("email", {
 						required: "L'adresse mail est requise",
 						pattern: {
 							value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
 							message: "Veuillez inserer un e-mail valide"
 						}
 					})}
-					className="w-full p-3 text-xl border rounded-lg"
 					type="text"
-					placeholder="Email"/>
-				<span className="font-regular text-xl text-red-500">{errors.email && errors.email.message}</span>
-				<input 
-					{...register("password", {
+					placeholder="Email" 
+					name="email" 
+					errors={errors}/>
+				<Input 
+					formControl={register("password", {
 						required: "Le mot de passe est requis"
 					})}
-					className="w-full p-3 text-xl border rounded-lg"
-					type="text" 
+					type="password"
 					placeholder="Password"
-				/>
-				<span className="font-regular text-xl text-red-500">{errors.password && errors.password.message}</span>
-
+					name="password"
+					errors={errors}/>
 				<button className="bg-slate-700 p-5 rounded-3xl w-1/5 h-16 flex items-center justify-center"><FaArrowRight className="text-white text-5xl" /></button>
 			</form>
 			<Link className="underline font-regular text-zinc-700" to={"/signup"}>Sans compte? Inscrivez-vous ici</Link>
