@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
+/* @font-face {
     font-family: "regular";
     src: local("Jost-Regular"),
     url("./assets/fonts/Jost-Regular.ttf") format("truetype");
@@ -12,4 +12,16 @@
     font-family: "bold";
     src: local("Jost-Bold"),
     url("./assets/fonts/Jost-Bold.ttf") format("truetype");
+} */
+
+@font-face {
+    font-family: "Space Grotesk";
+    src: local("SpaceGrotesk"),
+    url("./assets/fonts/SpaceGrotesk-VariableFont_wght.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Fliege Mono";
+    src: local("FliegeMono"),
+    url("./assets/fonts/FliegeMonoVF.ttf") format("truetype");
 }

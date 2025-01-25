@@ -6,14 +6,23 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        regular: ["regular"],
-        bold: ["bold"]
+        body: ["Space Grotesk", "sans"],
+        title: ["Fliege Mono", "sans"],
       },
       colors: {
         'light' : {
           DEFAULT: '#fffdfa',
+        },
+        'dark' : {
+          DEFAULT: '#011502'
+        },
+        'main' : {
+          DEFAULT: '#1C32C4'
+        },
+        'secondary': {
+          DEFAULT: '#4ABFB2'
         }
-      }
+      },
     },
   },
   plugins: [],
