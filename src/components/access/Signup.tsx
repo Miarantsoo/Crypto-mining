@@ -2,8 +2,8 @@ import { motion } from "framer-motion";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaArrowRight } from "react-icons/fa6";
 import { Link } from "react-router-dom";
-import Input from "./form/Input";
-import Select from "./form/Select";
+import Input from "../form/Input";
+import Select from "../form/Select";
 
 type FormFields = {
     prenom: string,
@@ -69,7 +69,7 @@ const Signup = () => {
                     <Select
                         name="genre"
                         placeholder="Votre genre"
-                        formControl={register("genre", { required: "Veuillez sélectionner un genre", validate: (g) => g.toString() !== "Votre genre" })}
+                        formControl={register("genre", { required: "Veuillez sélectionner un genre", validate: (value) => value !== -1 })}
                         errors={errors}
                         options={[
                             {value: 1, label: "Homme"},

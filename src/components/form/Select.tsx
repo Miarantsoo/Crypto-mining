@@ -24,8 +24,9 @@ const Select: React.FC<SelectProps> = ({
                 className="w-full h-11 p-2 border rounded-lg bg-light"
                 {...formControl}
                 aria-invalid={error ? "true" : "false"}
+               defaultValue={""}
             >
-                <option value="" disabled selected>
+                <option value="" disabled>
                     -
                 </option>
                 {options.map((option) => (
