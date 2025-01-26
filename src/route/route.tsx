@@ -6,7 +6,8 @@ import Login from "../components/access/Login";
 import Signup from "../components/access/Signup";
 import Access from "../pages/Access";
 import CodeVerification from "../pages/CodeVerification";
-import Portefeuille from "../components/Portefeuille";
+import Portefeuille from "../components/achats-ventes/Portefeuille";
+import ListeAchatVente from "../components/achats-ventes/ListeAchatVente";
 
 export const browserRouter = createBrowserRouter([
     {
@@ -50,5 +51,9 @@ export const browserRouter = createBrowserRouter([
     {
         path: "/profil",
         element: <Profil />
+    },
+    {
+        path: "/achats-ventes",
+        element: <ListeAchatVente />
     },
 ]);
