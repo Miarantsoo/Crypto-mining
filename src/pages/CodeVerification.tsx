@@ -1,18 +1,16 @@
-import { Outlet, useLocation } from "react-router-dom";
 import Bg from "./../assets/img/bg.jpg"
-import Homme from "./../assets/img/business.png"
+import Homme from "./../assets/img/business-coffee.png"
 import { AnimatePresence } from "framer-motion";
 import { ErrorContext } from "../context/ErrorContext";
 import { useEffect, useRef, useState } from "react";
 import { Alert } from "flowbite-react"
 import { HiInformationCircle } from "react-icons/hi";
+import Verification from "../components/access/Verification";
 
-
-const Access: React.FC = () => {
+const CodeVerification: React.FC = () => {
 
     const [error, setError] = useState<string>("");
 
-    const location = useLocation();
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
@@ -48,23 +46,23 @@ const Access: React.FC = () => {
                             <Alert
                                 icon={HiInformationCircle}
                                 color="failure"
-                                onDismiss={() => { 
+                                onDismiss={() => {
                                     setError("");
                                     if (timeoutRef.current) {
                                         clearTimeout(timeoutRef.current);
                                     }
                                 }}
-                                className="fixed top-4 right-4 z-50 text-xl"
-                                    >
+                                className="fixed top-4 right-4 z-50"
+                            >
                                 {error}
                             </Alert>
                         }
-                    <Outlet key={location.pathname} />
-                </ErrorContext.Provider>
-            </AnimatePresence>
-        </div>
+                        <Verification />
+                    </ErrorContext.Provider>
+                </AnimatePresence>
+            </div>
         </div >
     );
 };
 
-export default Access;
+export default CodeVerification;
