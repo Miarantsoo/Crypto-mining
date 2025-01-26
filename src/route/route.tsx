@@ -6,6 +6,7 @@ import Login from "../components/access/Login";
 import Signup from "../components/access/Signup";
 import Access from "../pages/Access";
 import CodeVerification from "../pages/CodeVerification";
+import Portefeuille from "../components/Portefeuille";
 
 export const browserRouter = createBrowserRouter([
     {
@@ -40,10 +41,14 @@ export const browserRouter = createBrowserRouter([
                 path: "cours",
                 element: <Cours />,
             },
+            {
+                path: "portefeuille",
+                element: <Portefeuille />,
+            },
         ],
     },
     {
         path: "/profil",
         element: <Profil />
-    }
+    },
 ]);
