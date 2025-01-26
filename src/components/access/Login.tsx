@@ -5,7 +5,7 @@ import { FaArrowRight } from "react-icons/fa6"
 import Input from "../form/Input";
 import axiosInstance from "../../api/AxiosConfig";
 import { useErrorContext } from "../../context/ErrorContext";
-import { MutatingDots }  from "react-loader-spinner"
+import { MutatingDots } from "react-loader-spinner"
 
 type FormFields = {
 	email: string,
@@ -55,9 +55,23 @@ const Login: React.FC = () => {
 			animate={{ opacity: 1, rotateY: [180, 360] }}
 			exit={{ rotateX: [0, 90] }}
 			transition={{ duration: 0.5 }}
-			className="bg-zinc-50 w-full flex items-center flex-col justify-center h-10/12 rounded-2xl p-5 shadow-2xl"
+			className="bg-light w-full flex items-center flex-col justify-center h-10/12 rounded-2xl p-5 shadow-2xl relative"
 		>
-			<span className="font-bold text-4xl m-10 text-zinc-500">Connectez vous avec Connectify</span>
+			{isSubmitting && (
+				<div className="absolute inset-0 flex items-center justify-center rounded-3xl bg-slate-700/80 backdrop-blur-sm">
+					<MutatingDots
+						visible={true}
+						height="100"
+						width="100"
+						color="#4d8"
+						secondaryColor="#fff"
+						radius="14.5"
+						ariaLabel="mutating-dots-loading"
+						wrapperClass="mb-1"
+					/>
+				</div>
+			)}
+			<span className="font-title uppercase text-4xl mx-5 mb-2 mt-5 text-dark">Connectez vous avec Connectify</span>
 			<form
 				className="w-full flex items-center justify-center flex-col gap-5 p-10"
 				onSubmit={handleSubmit(onSubmit)}>
@@ -81,20 +95,16 @@ const Login: React.FC = () => {
 					placeholder="Password"
 					name="mdp"
 					errors={errors} />
-				<button className="bg-slate-700 p-5 rounded-3xl w-1/5 h-20 flex items-center justify-center">{!isSubmitting ? <FaArrowRight className="text-white text-5xl" /> : <MutatingDots
-									visible={true}
-									height="80"
-									width="100"
-									color="#4d8"
-									secondaryColor="#fff"
-									radius="11.5"
-									ariaLabel="mutating-dots-loading"
-									wrapperStyle={{}}
-									wrapperClass=""
-								/>}
-				</button>
+				<div className="flex w-full align-center justify-end my-2">
+					<button className="bg-main p-5 font-body rounded-3xl w-fit h-10 flex items-center justify-center text-light">
+						<div className={`transition-opacity ${isSubmitting ? 'opacity-0' : 'opacity-100'}`}>
+							Continuer
+							<FaArrowRight className="text-light text-2xl ml-2 inline-block" />
+						</div>
+					</button>
+				</div>
 			</form>
-			<Link className="underline font-regular text-zinc-700" to={"/signup"}>Sans compte? Inscrivez-vous ici</Link>
+			<Link className="underline font-body text-main" to={"/signup"}>Sans compte? Inscrivez-vous ici</Link>
 		</motion.div>
 	);
 };
