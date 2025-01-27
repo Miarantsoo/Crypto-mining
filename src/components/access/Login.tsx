@@ -6,6 +6,7 @@ import Input from "../form/Input";
 import axiosInstance from "../../api/AxiosConfig";
 import { useErrorContext } from "../../context/ErrorContext";
 import { MutatingDots } from "react-loader-spinner"
+import {AxiosError} from "axios";
 
 type FormFields = {
 	email: string,
@@ -21,14 +22,14 @@ const Login: React.FC = () => {
 	const { setError } = context;
 
 	const {
-		register,
+		register,	
 		handleSubmit,
 		formState: {
 			errors,
 			isSubmitting
 		}
 	} = useForm<FormFields>();
-
+	
 	const onSubmit: SubmitHandler<FormFields> = async (data) => {
 		try {
 			const response = await axiosInstance.post("/utilisateur/signin",
@@ -44,7 +45,9 @@ const Login: React.FC = () => {
 					id: response.data.data
 				}
 			})
-		} catch (error: any) {
+		}
+		catch (error) {
+			//@ts-ignore
 			setError(error.response.data.error.message);
 		}
 	}
