@@ -42,6 +42,10 @@ export const browserRouter = createBrowserRouter([
                 path: "cours",
                 element: <Cours />,
             },
+            {
+                path: "portefeuille",
+                element: <Portefeuille />,
+            },
         ],
     },
     {
