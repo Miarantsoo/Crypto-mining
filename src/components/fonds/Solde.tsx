@@ -3,7 +3,7 @@ import { FaCoins, FaCirclePlus, FaCircleMinus } from "react-icons/fa6";
 
 const Solde: React.FC = () => {
   return (
-    <div className="bg-gradient-to-br from-secondary to-main rounded-lg px-5 py-5 my-8 flex flex-col gap-5 w-full">
+    <div className="bg-gradient-to-br from-secondary to-main rounded-lg px-5 py-5 my-8 flex flex-col gap-5 w-full shadow-md">
       <div className="flex flex-row gap-5">
         <FaCoins className="text-light text-2xl"></FaCoins>
         <h1 className="font-body font-regular text-light text-2xl">
@@ -17,10 +17,11 @@ const Solde: React.FC = () => {
       <form className="flex flex-col gap-2">
         <input
           type="number"
+          placeholder="Somme en €"
           className="text-dark bg-light focus:ring-0 font-body rounded-lg"
         />
         <div className="flex flex-row gap-2 w-full">
-          <button className="rounded-lg w-1/2 bg-secondary hover:bg-secondary-600 text-light px-5 py-3 font-body flex flex-row gap-2 items-center">
+          <button className="rounded-lg w-1/2 bg-secondary-500 hover:bg-secondary-600 text-light px-5 py-3 font-body flex flex-row gap-2 items-center">
             <FaCirclePlus></FaCirclePlus>
             Dépôt
           </button>

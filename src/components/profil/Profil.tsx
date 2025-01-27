@@ -19,9 +19,9 @@ type ProfilProps = {
 
 const Profil: React.FC<ProfilProps> = ({ user }) => {
   return (
-    <div className="flex flex-row w-full gap-5">
+    <div className="flex flex-row gap-5 w-5/6">
       <img src={Pfp} alt="" className="w-1/3 h-full object-cover" />
-      <div className="px-5 py-8">
+      <div className="px-5 py-8 w-2/3">
         <h1 className="font-title text-6xl font-bold uppercase text-dark">
           {user.prenom}
         </h1>

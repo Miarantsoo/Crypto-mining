@@ -14,13 +14,13 @@ const ProfilWrapper: React.FC = () => {
       <div className="min-h-dvh w-[90%] bg-light rounded-3xl flex flex-row overflow-x-hidden">
         <Profil user={{
                   id: 0,
-                  nom: "Ainaharison",
-                  prenom: "Miarantsoa",
+                  nom: "Boy",
+                  prenom: "Bebna",
                   dateNaissance: "2005-04-27",
                   genre: 1,
                   mail: "miarantsoasuper3000@gmail.com"
               }}></Profil>
-        <div className="flex flex-col">
+        <div className="flex flex-col w-1/6">
             <button
             className="mt-5 mx-7 bg-main hover:bg-main-700 px-5 py-6 font-body rounded-3xl h-10 flex items-center justify-center text-light gap-4"
             onClick={() => navigation(-1)}
@@ -31,6 +31,7 @@ const ProfilWrapper: React.FC = () => {
 
             <button
             className="mt-5 mx-7 border-2 border-main hover:border-main-700 px-5 py-3 font-body rounded-3xl w-max h-fit text-main hover:text-main-700"
+            onClick={() => navigation("/modif-profil")}
             >
             Modifier le profil
             </button>
