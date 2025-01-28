@@ -26,6 +26,29 @@ const Home: React.FC = () => {
         // setUser();
 
     })
+import axiosInstance from "../api/AxiosConfig";
+import { useEffect, useState } from "react";
+
+const Home: React.FC = () => {
+    const[ connectedUser, setConnectedUser ] = useState<Object | null>(null);
+
+    useEffect(() => {
+        console.log("qfe");
+
+        const getUser = async () => {
+            const result = await axiosInstance.post('/utilisateur/get-utilisateur', {
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            });
+            setConnectedUser(result);
+        } 
+
+        getUser();
+        
+        console.log(connectedUser);
+        
+    }, [connectedUser]);
     return (
         <div
             className="flex flex-row bg-cover"
@@ -41,5 +64,4 @@ const Home: React.FC = () => {
     );
 };
 
-export default Home
 
