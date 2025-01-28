@@ -8,7 +8,7 @@ const Home: React.FC = () => {
     const[ connectedUser, setConnectedUser ] = useState<Object | null>(null);
 
     useEffect(() => {
-        console.log("qfe");
+        // console.log("qfe");
 
         const getUser = async () => {
             const result = await axiosInstance.post('/utilisateur/get-utilisateur', {
