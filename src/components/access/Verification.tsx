@@ -4,6 +4,7 @@ import VerificationInput from "react-verification-input"
 import { useErrorContext } from "../../context/ErrorContext";
 import axiosInstance from "../../api/AxiosConfig";
 import { useLocation, useNavigate } from "react-router";
+import {UserInterface, useUserContext} from "../../context/UserContext.tsx";
 
 interface VerificationId {
     id: {
@@ -18,6 +19,8 @@ const Verification: React.FC = () => {
     const navigate = useNavigate();
     const dataSent = location.state as VerificationId;
     const { setError } = useErrorContext();
+    const[ connectedUser, setConnectedUser ] = useState<Object | null>(null);
+    const { setUser } = useUserContext();
 
     useEffect(() => {
         console.log(dataSent);
@@ -45,6 +48,23 @@ const Verification: React.FC = () => {
                 );
                 localStorage.setItem('token', response.data.data.data);
                 navigate("/home");
+
+                //get User et mettre dans context
+                const getUser = async () => {
+                    const result = await axiosInstance.post('/utilisateur/get-utilisateur', {
+                        headers: {
+                            'Content-type': 'application/json'
+                        }
+                    });
+                    setConnectedUser(result.data.data.data);
+                }
+
+                getUser();
+
+                // @ts-ignore
+                console.log(connectedUser)
+                setUser(connectedUser as UserInterface);
+
 
                 console.log(response.data.data);
             } catch (error: any) {
