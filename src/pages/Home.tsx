@@ -5,6 +5,27 @@ import Bg from "./../assets/img/bg.jpg"
 
 // @ts-ignore
 const Home: React.FC = () => {
+    const[ connectedUser, setConnectedUser ] = useState<Object | null>(null);
+
+    useEffect(() => {
+        console.log("qfe");
+
+        const getUser = async () => {
+            const result = await axiosInstance.post('/utilisateur/get-utilisateur', {
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            });
+            // console.log();
+            setConnectedUser(result.data.data.data);
+        } 
+
+        getUser();
+        
+        // console.log(connectedUser);
+        
+    }, [connectedUser]);
+
     return (
         <div
             className="flex flex-row bg-cover"
