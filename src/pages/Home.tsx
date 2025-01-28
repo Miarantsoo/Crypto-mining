@@ -16,12 +16,13 @@ const Home: React.FC = () => {
                     'Content-type': 'application/json'
                 }
             });
-            setConnectedUser(result);
+            // console.log();
+            setConnectedUser(result.data.data.data);
         } 
 
         getUser();
         
-        console.log(connectedUser);
+        // console.log(connectedUser);
         
     }, [connectedUser]);
 
