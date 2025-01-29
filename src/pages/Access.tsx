@@ -43,19 +43,19 @@ const Access: React.FC = () => {
             </div>
             <div className="w-1/2 my-20 mr-36 p-10 flex items-center justify-center">
                 <AnimatePresence mode="wait">
-                    <ErrorContext.Provider value={{ error, setError }}>
+                    <ErrorContext.Provider value={{error, setError}}>
                         {error !== "" &&
                             <Alert
                                 icon={HiInformationCircle}
                                 color="failure"
-                                onDismiss={() => { 
+                                onDismiss={() => {
                                     setError("");
                                     if (timeoutRef.current) {
                                         clearTimeout(timeoutRef.current);
                                     }
                                 }}
                                 className="fixed top-4 right-4 z-50 text-xl"
-                                    >
+                            >
                                 {error}
                             </Alert>
                         }

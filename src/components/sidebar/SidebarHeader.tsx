@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import BlankProfile from "./../../assets/img/blank-profile.png";
-import {useUserContext} from "../../context/UserContext.tsx";
+import { useUserContext} from "../../context/UserContext.tsx";
 
 const SidebarHeader: React.FC = () => {
     const { user } = useUserContext();
