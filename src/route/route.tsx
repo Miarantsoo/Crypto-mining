@@ -8,6 +8,7 @@ import CodeVerification from "../pages/CodeVerification";
 import Portefeuille from "../components/achats-ventes/Portefeuille";
 import ListeAchatVente from "../components/achats-ventes/ListeAchatVente";
 import ProfilWrapper from "../components/profil/ProfilWrapper";
+import FiltreAchatVente from "../components/achats-ventes/FiltreAchatVente.tsx";
 
 export const browserRouter = createBrowserRouter([
     {
@@ -55,5 +56,9 @@ export const browserRouter = createBrowserRouter([
     {
         path: "/achats-ventes",
         element: <ListeAchatVente />
+    },
+    {
+        path: "/filtre-achat-vente",
+        element: <FiltreAchatVente />
     },
 ]);
