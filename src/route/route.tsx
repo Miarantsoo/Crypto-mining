@@ -1,6 +1,6 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import Home from "../pages/Home";
-import Cours from "../components/Cours";
+import Cours from "../components/cours/Cours";
 import Login from "../components/access/Login";
 import Signup from "../components/access/Signup";
 import Access from "../pages/Access";
