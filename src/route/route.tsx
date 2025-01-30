@@ -10,6 +10,7 @@ import ListeAchatVente from "../components/achats-ventes/ListeAchatVente";
 import ProfilWrapper from "../pages/StandaloneCard";
 import ProfilModif from "../components/profil/ProfilModif";
 import Profil from "../components/profil/Profil";
+import FiltreAchatVente from "../components/achats-ventes/FiltreAchatVente.tsx";
 
 export const browserRouter = createBrowserRouter([
     {
@@ -78,5 +79,9 @@ export const browserRouter = createBrowserRouter([
     {
         path: "/achats-ventes",
         element: <ListeAchatVente />
+    },
+    {
+        path: "/filtre-achat-vente",
+        element: <FiltreAchatVente />
     },
 ]);
