@@ -104,7 +104,7 @@ const Cours = () => {
               series={[
                 {
                   data: chartData.map((d) => d.y),
-                  curve: "natural",
+                  curve: "linear",
                   showMark: ({ index }) => index === chartData.length - 1,
                 },
               ]}

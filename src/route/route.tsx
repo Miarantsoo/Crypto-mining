@@ -7,7 +7,7 @@ import Access from "../pages/Access";
 import CodeVerification from "../pages/CodeVerification";
 import Portefeuille from "../components/achats-ventes/Portefeuille";
 import ListeAchatVente from "../components/achats-ventes/ListeAchatVente";
-import ProfilWrapper from "../pages/StandaloneCard";
+import StandaloneCard from "../pages/StandaloneCard";
 import ProfilModif from "../components/profil/ProfilModif";
 import Profil from "../components/profil/Profil";
 import FiltreAchatVente from "../components/achats-ventes/FiltreAchatVente.tsx";
@@ -57,7 +57,7 @@ export const browserRouter = createBrowserRouter([
     },
     {
         path: "/profil",
-        element: <ProfilWrapper />,
+        element: <StandaloneCard />,
         children: [
             {
                 path: "",
@@ -78,10 +78,16 @@ export const browserRouter = createBrowserRouter([
     },
     {
         path: "/achats-ventes",
-        element: <ListeAchatVente />
-    },
-    {
-        path: "/filtre-achat-vente",
-        element: <FiltreAchatVente />
+        element: <StandaloneCard />,
+        children: [
+            {
+                path: "",
+                element: <ListeAchatVente />
+            },
+            {
+                path: "filtre",
+                element: <FiltreAchatVente />
+            },
+        ]
     },
 ]);
