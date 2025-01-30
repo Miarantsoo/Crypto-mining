@@ -24,6 +24,7 @@ const CodeVerification: React.FC = () => {
             }, 5000);
         }
 
+
         return () => {
             if (timeoutRef.current) {
                 clearTimeout(timeoutRef.current);
