@@ -26,7 +26,7 @@ const ToggleTabs: React.FC<ToggleTabsProps> = ({ options }) => {
     <div className="relative w-64 bg-lavender font-body rounded-full flex p-1">
       {/* Animated background */}
       <motion.div
-        className="absolute top-1 bottom-1 left-1 righ-1 w-[48%] bg-main rounded-full"
+        className="absolute top-1 bottom-1 left-1 righ-1 w-[48.5%] bg-main rounded-full"
         initial={false}
         animate={{ x: selected === options[0].path ? 0 : "100%" }}
         transition={{ type: "spring", stiffness: 250, damping: 20 }}
