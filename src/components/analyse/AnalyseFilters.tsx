@@ -61,7 +61,7 @@ const AnalyseFilters: React.FC<FilterProps> = ({
     };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="mb-5">
       <div className="w-fit flex flex-row gap-5">
         <div>
           <label htmlFor="type" className="font-body text-dark mb-2 text-base">
