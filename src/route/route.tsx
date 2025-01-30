@@ -9,6 +9,7 @@ import Portefeuille from "../components/achats-ventes/Portefeuille";
 import ListeAchatVente from "../components/achats-ventes/ListeAchatVente";
 import ProfilWrapper from "../components/profil/ProfilWrapper";
 import FiltreAchatVente from "../components/achats-ventes/FiltreAchatVente.tsx";
+import AnalyseCrypto from "../components/analyse/AnalyseCrypto.tsx";
 
 export const browserRouter = createBrowserRouter([
     {
@@ -60,5 +61,9 @@ export const browserRouter = createBrowserRouter([
     {
         path: "/filtre-achat-vente",
         element: <FiltreAchatVente />
+    },
+    {
+        path: "/analyse-crypto",
+        element: <AnalyseCrypto />
     },
 ]);
