@@ -12,9 +12,9 @@ const AnalyseFilters: React.FC<FilterProps> = ({
   setData,
   cryptoData,
 }) => {
-  const [checkAll, setCheckAll] = useState(false);
+  const [checkAll, setCheckAll] = useState(true);
   const [checkedItems, setCheckedItems] = useState<boolean[]>(
-    Array(10).fill(false)
+    Array(10).fill(true)
   );
 
   const handleCheckAll = () => {
@@ -71,7 +71,7 @@ const AnalyseFilters: React.FC<FilterProps> = ({
             <select
               name="type"
               id="type"
-              className="h-11 p-2 border border-lavender rounded-lg font-body focus:ring-main focus:border-none"
+              className="h-11 p-2 border border-lavender bg-light rounded-lg font-body focus:ring-main focus:border-none"
             >
               <option value="1">1er Quartile</option>
               <option value="2">Max</option>
@@ -90,7 +90,7 @@ const AnalyseFilters: React.FC<FilterProps> = ({
               type="datetime-local"
               id="min"
               name="min"
-              className="h-11 p-2 border border-lavender rounded-lg font-body focus:ring-main focus:border-none"
+              className="h-11 p-2 border border-lavender bg-light rounded-lg font-body focus:ring-main focus:border-none"
               // required
             />
           </div>
@@ -104,7 +104,7 @@ const AnalyseFilters: React.FC<FilterProps> = ({
               type="datetime-local"
               id="max"
               name="max"
-              className="h-11 p-2 border border-lavender rounded-lg font-body focus:ring-main focus:border-none"
+              className="h-11 p-2 border border-lavender bg-light rounded-lg font-body focus:ring-main focus:border-none"
               // required
             />
           </div>
