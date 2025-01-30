@@ -7,7 +7,7 @@ import Access from "../pages/Access";
 import CodeVerification from "../pages/CodeVerification";
 import Portefeuille from "../components/achats-ventes/Portefeuille";
 import ListeAchatVente from "../components/achats-ventes/ListeAchatVente";
-import ProfilWrapper from "../pages/ProfilWrapper";
+import ProfilWrapper from "../pages/StandaloneCard";
 import ProfilModif from "../components/profil/ProfilModif";
 import Profil from "../components/profil/Profil";
 
@@ -40,6 +40,10 @@ export const browserRouter = createBrowserRouter([
         path: "/home",
         element: <Home />,
         children: [
+            {
+                path: "",
+                element: <Cours />,
+            },
             {
                 path: "cours",
                 element: <Cours />,

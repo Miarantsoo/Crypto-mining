@@ -56,12 +56,12 @@ const Profil: React.FC<ProfilProps> = ({ user }) => {
             Retour
             </button>
 
-            <button
+            {/* <button
             className="mt-5 mx-7 border-2 border-main hover:border-main-700 px-5 py-3 font-body rounded-3xl w-max h-fit text-main hover:text-main-700"
             onClick={() => navigation("/profil/modif")}
             >
             Modifier le profil
-            </button>
+            </button> */}
         </div>
     </div>
   );
