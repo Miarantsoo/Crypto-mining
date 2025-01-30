@@ -3,12 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { LineChart } from "@mui/x-charts";
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
 import api from "../../api/JavaAxiosConfig";
-
-type Crypto = {
-  id: number;
-  nom: string;
-  daty: string;
-};
+import { Crypto } from "../../types/crypto";
 
 type HistoCrypto = {
   id: number;

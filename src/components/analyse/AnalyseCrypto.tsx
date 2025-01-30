@@ -1,111 +1,126 @@
 import React, { useState, useEffect } from "react";
 import Bg from "../../assets/img/bg.jpg";
+import AnalyseFilters from "./AnalyseFilters";
 
 const AnalyseCrypto: React.FC = () => {
-    const [checkAll, setCheckAll] = useState(false);
-    const [checkedItems, setCheckedItems] = useState<boolean[]>(Array(10).fill(false));
-    const [cryptoData, setCryptoData] = useState<any[]>([]); // Store the fetched crypto data
+  const [checkAll, setCheckAll] = useState(false);
+  const [checkedItems, setCheckedItems] = useState<boolean[]>(
+    Array(10).fill(false)
+  );
+  const [cryptoData, setCryptoData] = useState<any[]>([]); // Store the fetched crypto data
+  const [histoCrypto, setHistoCrypto] = useState<object[]>([]);
 
-    useEffect(() => {
-        const fetchCryptoData = async () => {
-            try {
-                const response = await fetch("http://localhost:8089/api/analyse/crypto/list");
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                console.log("Crypto: ", data);
-                setCryptoData(data);
-
-                const initialCheckedItems = Array(data.length).fill(false);
-                if (data.length > 0) {
-                    for (let i = 0; i < data.length; i++) {
-                        initialCheckedItems[i] = false;
-                    }
-                }
-
-                setCheckedItems(initialCheckedItems);
-                if (initialCheckedItems.every(item => item)) {
-                    setCheckAll(true);
-                }
-
-            } catch (error) {
-                console.error("Error fetching crypto data:", error);
-            }
-        };
-
-        fetchCryptoData();
-    }, []);
-
-    const handleCheckAll = () => {
-        const newCheckAll = !checkAll;
-        setCheckAll(newCheckAll);
-        setCheckedItems(Array(10).fill(newCheckAll));
-    };
-
-    const handleCheckboxChange = (index: number) => {
-        const newCheckedItems = [...checkedItems];
-        newCheckedItems[index] = !newCheckedItems[index];
-        setCheckedItems(newCheckedItems);
-
-        if (newCheckedItems.every((item) => item)) {
-            setCheckAll(true);
-        } else {
-            setCheckAll(false);
+  useEffect(() => {
+    const fetchCryptoData = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:8089/api/analyse/crypto/list"
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
-    };
+        const data = await response.json();
+        console.log("Crypto: ", data);
+        setCryptoData(data);
 
-    const handleSubmit = async (event: React.FormEvent) => {
-        event.preventDefault(); // Prevent default form submission
-
-        const selectedCryptoIds = checkedItems
-            .map((isChecked, index) => isChecked ? cryptoData[index]?.id : null)
-            .filter(id => id !== null); // Filter out null values (unchecked items)
-
-        const formData = {
-            typeAnalyse: event.currentTarget.type.value,
-            minDate: event.currentTarget.min.value,
-            maxDate: event.currentTarget.max.value,
-            cryptoIds: selectedCryptoIds,
-        };
-
-        console.log("formData: ", formData);
-
-        try {
-            const response = await fetch("http://localhost:8089/api/analyse/crypto/resultat", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData),
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json(); // Try to get error details from the server
-                throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message || response.statusText}`);
-            }
-
-            const result = await response.json();
-            console.log("Analysis result:", result);
-
-        } catch (error) {
-            console.error("Error submitting form:", error);
+        const initialCheckedItems = Array(data.length).fill(false);
+        if (data.length > 0) {
+          for (let i = 0; i < data.length; i++) {
+            initialCheckedItems[i] = false;
+          }
         }
+
+        setCheckedItems(initialCheckedItems);
+        if (initialCheckedItems.every((item) => item)) {
+          setCheckAll(true);
+        }
+      } catch (error) {
+        console.error("Error fetching crypto data:", error);
+      }
     };
 
+    fetchCryptoData();
+  }, []);
 
-    return (
-        <div
-            className="w-full min-h-dvh bg-cover flex flex-row p-6"
-            style={{ backgroundImage: `url(${Bg})` }}
-        >
-            <div className="bg-light rounded-lg w-full px-8 py-8">
-                <div className="mb-5">
-                    <h1 className="font-title font-bold uppercase text-dark text-4xl">
-                        Analyse Crypto
-                    </h1>
-                </div>
-                <form onSubmit={handleSubmit}>
+  const handleCheckAll = () => {
+    const newCheckAll = !checkAll;
+    setCheckAll(newCheckAll);
+    setCheckedItems(Array(10).fill(newCheckAll));
+  };
+
+  const handleCheckboxChange = (index: number) => {
+    const newCheckedItems = [...checkedItems];
+    newCheckedItems[index] = !newCheckedItems[index];
+    setCheckedItems(newCheckedItems);
+
+    if (newCheckedItems.every((item) => item)) {
+      setCheckAll(true);
+    } else {
+      setCheckAll(false);
+    }
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault(); // Prevent default form submission
+
+    const selectedCryptoIds = checkedItems
+      .map((isChecked, index) => (isChecked ? cryptoData[index]?.id : null))
+      .filter((id) => id !== null); // Filter out null values (unchecked items)
+
+    const formData = {
+      typeAnalyse: event.currentTarget.type.value,
+      minDate: event.currentTarget.min.value,
+      maxDate: event.currentTarget.max.value,
+      cryptoIds: selectedCryptoIds,
+    };
+
+    console.log("formData: ", formData);
+
+    try {
+      const response = await fetch(
+        "http://localhost:8089/api/analyse/crypto/resultat",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json(); // Try to get error details from the server
+        throw new Error(
+          `HTTP error! status: ${response.status}, message: ${
+            errorData.message || response.statusText
+          }`
+        );
+      }
+
+      const result = await response.json();
+      console.log("Analysis result:", result);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
+
+  return (
+    <div
+      className="w-full min-h-dvh bg-cover flex flex-row p-6"
+      style={{ backgroundImage: `url(${Bg})` }}
+    >
+      <div className="bg-light rounded-lg w-full px-8 py-8">
+        <div className="mb-5">
+          <h1 className="font-title font-bold uppercase text-dark text-4xl">
+            Analyse Crypto
+          </h1>
+        </div>
+        <AnalyseFilters
+          url={"/histoCrypto/current-value/2"}
+          setData={(data) => { console.log(data) }}
+          cryptoData={cryptoData ? cryptoData : []}
+        ></AnalyseFilters>
+        {/* <form onSubmit={handleSubmit}>
                     <div className="w-fit flex flex-row gap-5">
                         <div>
                             <label htmlFor="type" className="font-body text-dark mb-2 text-base">
@@ -196,10 +211,10 @@ const AnalyseCrypto: React.FC = () => {
                             Valider
                         </button>
                     </div>
-                </form>
-            </div>
-        </div>
-    );
+                </form> */}
+      </div>
+    </div>
+  );
 };
 
 export default AnalyseCrypto;
