@@ -7,7 +7,9 @@ import Access from "../pages/Access";
 import CodeVerification from "../pages/CodeVerification";
 import Portefeuille from "../components/achats-ventes/Portefeuille";
 import ListeAchatVente from "../components/achats-ventes/ListeAchatVente";
-import ProfilWrapper from "../components/profil/ProfilWrapper";
+import ProfilWrapper from "../pages/ProfilWrapper";
+import ProfilModif from "../components/profil/ProfilModif";
+import Profil from "../components/profil/Profil";
 
 export const browserRouter = createBrowserRouter([
     {
@@ -50,7 +52,24 @@ export const browserRouter = createBrowserRouter([
     },
     {
         path: "/profil",
-        element: <ProfilWrapper />
+        element: <ProfilWrapper />,
+        children: [
+            {
+                path: "",
+                element: <Profil user={{
+                    id: 0,
+                    nom: "Bebna",
+                    prenom: "Boy",
+                    dateNaissance: "2024-04-27",
+                    genre: 1,
+                    mail: "miarantsoasuper3000@gmail.com"
+                }}></Profil>
+            },
+            {
+                path: "modif",
+                element: <ProfilModif />
+            }
+        ]
     },
     {
         path: "/achats-ventes",
