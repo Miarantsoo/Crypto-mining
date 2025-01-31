@@ -1,8 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router";
 
 type TableData = {
   headers: string[];
-  tableContents: (string | number | boolean | Date)[][];
+  tableContents: {
+    value: string | number | boolean | Date;
+    redirect?: string | null;
+  }[][];
 };
 
 const GenericTable: React.FC<TableData> = ({ headers, tableContents }) => {
@@ -25,6 +29,14 @@ const GenericTable: React.FC<TableData> = ({ headers, tableContents }) => {
     }
   };
 
+  const navigate = useNavigate();
+
+  const handleClick = (redirect?: string | null) => {
+    if (redirect) {
+      navigate(redirect);
+    }
+  };
+
   return (
     <div className="border rounded-lg overflow-hidden shadow-md">
       <table className="w-full text-left table-fixed min-w-max rounded-lg font-body">
@@ -40,11 +52,22 @@ const GenericTable: React.FC<TableData> = ({ headers, tableContents }) => {
         {tableContents && tableContents.length > 0 ? (
           <tbody>
             {tableContents.map((row, index) => (
-                <tr className={index < tableContents.length - 1 ? "border-b border-b-lavender" : ""}>
-                    {row.map((item) => (
-                        <td className="p-4">{ renderItem(item) }</td>
-                    ))}
-                </tr>
+              <tr
+                className={
+                  index < tableContents.length - 1
+                    ? "border-b border-b-lavender"
+                    : ""
+                }
+              >
+                {row.map((item) => (
+                  <td
+                    className={`p-4 ${ item.redirect !== null ? "cursor-pointer" : ""}`}
+                    onClick={() => handleClick(item.redirect)}
+                  >
+                    {renderItem(item.value)}
+                  </td>
+                ))}
+              </tr>
             ))}
           </tbody>
         ) : (
