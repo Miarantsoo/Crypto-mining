@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import api from "../../api/JavaAxiosConfig.ts";
 import { FaArrowLeft } from "react-icons/fa6";
 import { useNavigate } from "react-router";
+import GenericTable from "../generic/GenericTable.tsx";
 
 type TotalTransaction = {
   idUser: number;
@@ -58,7 +59,6 @@ const FiltreAchatVente: React.FC = () => {
 
   return (
     <div className="w-full h-full flex flex-col">
-      <div className="flex flex-col w-full items-end"></div>
       <div className="w-full px-8 py-8">
         <div className="mb-5 flex flex-row justify-between items-center">
           <div className="">
@@ -66,11 +66,11 @@ const FiltreAchatVente: React.FC = () => {
               Somme des achats et ventes
             </h1>
             <p className="font-body text-slate-500">
-              Cette page liste l'entièreté des achats et ventes effectués par
+              Cette page liste la somme des achats et ventes effectués par
               tous les utilisateurs.
             </p>
           </div>
-          <div className="flex flex-col">
+          {/* <div className="flex flex-col">
             <button
               className="mt-5 mx-7 bg-main hover:bg-main-700 px-5 py-6 font-body rounded-3xl h-10 flex items-center justify-center text-light gap-4"
               onClick={() => navigation(-1)}
@@ -78,7 +78,7 @@ const FiltreAchatVente: React.FC = () => {
               <FaArrowLeft className="text-light text-2xl ml-2 inline-block" />
               Retour
             </button>
-          </div>
+          </div> */}
         </div>
         <div className="mb-5">
           <form onSubmit={handleSubmit}>
@@ -109,36 +109,15 @@ const FiltreAchatVente: React.FC = () => {
             </div>
           </form>
         </div>
-        <div className="border rounded-lg overflow-hidden shadow-md">
-          <table className="w-full text-left table-fixed min-w-max rounded-lg font-body">
-            <thead className="border-b bg-lavender-50 border-b-lavender">
-              <tr className="">
-                <th className="p-4 text-lg text-main font-extrabold">
-                  Utilisateur
-                </th>
-                <th className="p-4 text-lg text-main font-extrabold">
-                  Total des achats
-                </th>
-                <th className="p-4 text-lg text-main font-extrabold">
-                  Total des ventes
-                </th>
-                <th className="p-4 text-lg text-main font-extrabold">
-                  Portefeuille
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {resultats?.map((item) => (
-                <tr className="border-b border-b-lavender">
-                  <td className="p-4 ">{item.idUser}</td>
-                  <td className="p-4 ">{item.totalAchat}</td>
-                  <td className="p-4">{item.totalVente}</td>
-                  <td className="p-4 ">{item.portefeuille}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <GenericTable
+            headers={["Utilisateur", "Total des achats", "Total des ventes", "Portefeuille"]}
+            tableContents={resultats?.map((obj) => [
+              { value: obj.idUser + "", redirect: null }, 
+              { value: obj.totalAchat, redirect: null },  
+              { value: obj.totalVente, redirect: null },  
+              { value: obj.portefeuille, redirect: null },  
+            ])}
+          />
       </div>
     </div>
   );

@@ -86,7 +86,13 @@ export const browserRouter = createBrowserRouter([
     },
     {
         path: "/filtre-achat-vente",
-        element: <FiltreAchatVente />
+        element: <Home />,
+        children: [
+            {
+                path: "",
+                element: <FiltreAchatVente />
+            }
+        ]
     },
     {
         path: "/analyse-crypto",
@@ -100,12 +106,17 @@ export const browserRouter = createBrowserRouter([
     },
     {
         path: "/historique-operation",
-        element: <HistoriqueOperation />,
-    },
-    {
-        path: "/historique-operation/:idUser",
-        element: <HistoriqueOperationPerso/>
-        
+        element: <Home />,
+        children: [
+            {
+                path: "",
+                element: <HistoriqueOperation />
+            },
+            {
+                path: ":idUser",
+                element: <HistoriqueOperationPerso />
+            }
+        ]
     },
     {
         path: "/achats-ventes",
