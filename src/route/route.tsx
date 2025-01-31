@@ -12,6 +12,7 @@ import ProfilModif from "../components/profil/ProfilModif";
 import Profil from "../components/profil/Profil";
 import FiltreAchatVente from "../components/achats-ventes/FiltreAchatVente.tsx";
 import AnalyseCrypto from "../components/analyse/AnalyseCrypto.tsx";
+import AnalyseCommission from "../components/analyse/AnalyseCommission.tsx";
 
 export const browserRouter = createBrowserRouter([
     {
@@ -92,13 +93,17 @@ export const browserRouter = createBrowserRouter([
         ]
     },
     {
-        path: "/analyse-crypto",
+        path: "/analyse",
         element: <Home />,
         children: [
             {
-                path: "",
+                path: "crypto",
                 element: <AnalyseCrypto />
-            }
+            },
+            {
+                path: "commissions",
+                element: <AnalyseCommission />
+            },
         ]
     },
 ]);

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import api from "../../api/JavaAxiosConfig";
+import { TypeAnalyse } from "../../types/form";
 
 type FilterProps = {
   url: string;
@@ -7,6 +8,7 @@ type FilterProps = {
   cryptoData: Crypto[];
   minValue: string;
   maxValue: string;
+  typesAnalyse: TypeAnalyse[];
 };
 
 const AnalyseFilters: React.FC<FilterProps> = ({
@@ -15,6 +17,7 @@ const AnalyseFilters: React.FC<FilterProps> = ({
   cryptoData,
   minValue,
   maxValue,
+  typesAnalyse,
 }) => {
   const [checkAll, setCheckAll] = useState(true);
   const [checkedItems, setCheckedItems] = useState<boolean[]>(
@@ -61,6 +64,7 @@ const AnalyseFilters: React.FC<FilterProps> = ({
     const selectedCryptoIds = checkedItems
       .map((isChecked, index) => (isChecked ? cryptoData[index]?.id : null))
       .filter((id) => id !== null); // Filter out null values (unchecked items)
+    console.log(selectedCryptoIds);
 
     const formData = {
       typeAnalyse: event.currentTarget.type.value,
@@ -94,11 +98,14 @@ const AnalyseFilters: React.FC<FilterProps> = ({
               id="type"
               className="h-11 p-2 border border-lavender bg-light rounded-lg font-body focus:ring-main focus:border-none"
             >
-              <option value="1">1er Quartile</option>
+              {typesAnalyse.map((type) => (
+                <option value={type.value}>{type.display}</option>
+              ))}
+              {/* <option value="1">1er Quartile</option>
               <option value="2">Max</option>
               <option value="3">Min</option>
               <option value="4">Moyenne</option>
-              <option value="5">Ecart-type</option>
+              <option value="5">Ecart-type</option> */}
             </select>
           </div>
         </div>

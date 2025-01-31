@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import AnalyseFilters from "./AnalyseFilters";
 import GenericTable from "../generic/GenericTable";
 import GenericBarChart from "../generic/GenericBarChart";
-import { IResult } from "../../types/results";
+import { IResult } from "../../types/form";
 import ToggleTabs from "../generic/ToggleTabs";
 
 const AnalyseCrypto: React.FC = () => {
@@ -46,7 +46,6 @@ const AnalyseCrypto: React.FC = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        console.log("Crypto: ", data);
         setCryptoData(data);
 
         const initialCheckedItems = Array(data.length).fill(false);
@@ -57,22 +56,26 @@ const AnalyseCrypto: React.FC = () => {
         }
 
         setCheckedItems(initialCheckedItems);
-        console.log("Kindy e:", checkedItems);
         if (initialCheckedItems.every((item) => item)) {
           setCheckAll(true);
         }
 
-        setFirst(true);
+        setTimeout(() => {
+          setFirst(true);
+        }, 1000);
+
       } catch (error) {
         console.error("Error fetching crypto data:", error);
       }
     };
 
     fetchCryptoData();
-  })
+  }, []);
   
   useEffect(() => {
+    if (first) {
       handleSubmit();
+    }
   },[first]);
 
   const handleSubmit = async () => {
@@ -131,8 +134,13 @@ const AnalyseCrypto: React.FC = () => {
         setData={setResultats}
         cryptoData={cryptoData}
         minValue={min}
-        maxValue={max}
-      ></AnalyseFilters>
+        maxValue={max} typesAnalyse={[
+          {value: "1", display: "1er Quartile"},
+          {value: "2", display: "Max"},
+          {value: "3", display: "Min"},
+          {value: "4", display: "Moyenne"},
+          {value: "5", display: "Ecart-type"},
+        ]}      />
 
       {resultats &&
         resultats.length > 0 &&
