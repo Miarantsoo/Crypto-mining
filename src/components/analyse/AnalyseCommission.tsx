@@ -143,7 +143,10 @@ const AnalyseCommission = () => {
         (view === "table" ? (
           <GenericTable
             headers={["Crypto", "Valeur"]}
-            tableContents={resultats.map((obj) => [obj.nom, obj.valeur])}
+            tableContents={resultats.map((obj) => [
+              { value: obj.nom, redirect: null }, 
+              { value: obj.valeur, redirect: null }
+            ])}
           />
         ) : view === "bar-chart" ? (
           <GenericBarChart data={resultats} />

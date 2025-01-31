@@ -90,7 +90,13 @@ export const browserRouter = createBrowserRouter([
     },
     {
         path: "/analyse-crypto",
-        element: <AnalyseCrypto />
+        element: <Home />,
+        children: [
+            {
+                path: "",
+                element: <AnalyseCrypto />
+            }
+        ]
     },
     {
         path: "/historique-operation",
