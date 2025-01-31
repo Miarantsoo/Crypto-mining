@@ -10,6 +10,8 @@ import ListeAchatVente from "../components/achats-ventes/ListeAchatVente";
 import ProfilWrapper from "../components/profil/ProfilWrapper";
 import FiltreAchatVente from "../components/achats-ventes/FiltreAchatVente.tsx";
 import AnalyseCrypto from "../components/analyse/AnalyseCrypto.tsx";
+import HistoriqueOperation from "../components/achats-ventes/HistoriqueOperation.tsx";
+import HistoriqueOperationPerso from "../components/achats-ventes/HistoriqueOperationPerso.tsx";
 
 export const browserRouter = createBrowserRouter([
     {
@@ -65,5 +67,13 @@ export const browserRouter = createBrowserRouter([
     {
         path: "/analyse-crypto",
         element: <AnalyseCrypto />
+    },
+    {
+        path: "/historique-operation",
+        element: <HistoriqueOperation />,
+    },
+    {
+        path: "/historique-operation/:idUser",
+        element: <HistoriqueOperationPerso/>
     },
 ]);

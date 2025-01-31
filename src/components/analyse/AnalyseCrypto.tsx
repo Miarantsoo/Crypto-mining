@@ -48,23 +48,26 @@ const AnalyseCrypto: React.FC = () => {
                 }
 
                 setCheckedItems(initialCheckedItems);
-                console.log("Kindy e:", checkedItems);
                 if (initialCheckedItems.every(item => item)) {
                     setCheckAll(true);
                 }
 
-                setFirst(true)
+                setTimeout(() => {
+                    setFirst(true);
+                }, 1000);
             } catch (error) {
                 console.error("Error fetching crypto data:", error);
             }
         };
 
         fetchCryptoData();
-        }, []);
+    }, []);
 
-        useEffect(() => {
+    useEffect(() => {
+        if(first){
             handleSubmit();
-        },[first]);
+        }
+    },[first]);
 
     const handleCheckAll = () => {
         const newCheckAll = !checkAll;
@@ -122,6 +125,7 @@ const AnalyseCrypto: React.FC = () => {
 
             if (!response.ok) {
                 const errorData = await response.json();
+                alert(errorData.message);
                 throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message || response.statusText}`);
             }
 
@@ -169,7 +173,7 @@ const AnalyseCrypto: React.FC = () => {
                         </div>
                         <div>
                             <label htmlFor="min" className="font-body text-dark mb-2 text-base">
-                                Min
+                                Date Min
                             </label>
                             <div className="flex flex-row">
                                 <input
@@ -185,7 +189,7 @@ const AnalyseCrypto: React.FC = () => {
                         </div>
                         <div>
                             <label htmlFor="max" className="font-body text-dark mb-2 text-base">
-                                Max
+                                Date Max
                             </label>
                             <div className="flex flex-row">
                                 <input
