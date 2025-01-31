@@ -13,6 +13,7 @@ import Profil from "../components/profil/Profil";
 import FiltreAchatVente from "../components/achats-ventes/FiltreAchatVente.tsx";
 import AnalyseCrypto from "../components/analyse/AnalyseCrypto.tsx";
 import AnalyseCommission from "../components/analyse/AnalyseCommission.tsx";
+import LoginAdmin from "../components/access/LoginAdmin.tsx";
 
 export const browserRouter = createBrowserRouter([
     {
@@ -105,5 +106,9 @@ export const browserRouter = createBrowserRouter([
                 element: <AnalyseCommission />
             },
         ]
+    },
+    {
+        path: "/admin/login",
+        element: <LoginAdmin />
     },
 ]);
