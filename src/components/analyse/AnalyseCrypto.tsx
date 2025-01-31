@@ -68,42 +68,53 @@ const AnalyseCrypto: React.FC = () => {
       }
     };
 
-    const [checkAll, setCheckAll] = useState(false);
-    const [checkedItems, setCheckedItems] = useState<boolean[]>(Array(10).fill(false));
-    const [cryptoData, setCryptoData] = useState<any[]>([]);
-
-    const [resultats, setResultats] = useState<IResult[]>([]);
-    const [type, setType] = useState<string>("1")
+    fetchCryptoData();
+  })
+  
+  useEffect(() => {
+      handleSubmit();
+  },[first]);
 
   const handleSubmit = async () => {
     const selectedCryptoIds = checkedItems
       .map((isChecked, index) => (isChecked ? cryptoData[index]?.id : null))
       .filter((id) => id !== null);
 
-        useEffect(() => {
-            handleSubmit();
-        },[first]);
-
-    const handleCheckAll = () => {
-        const newCheckAll = !checkAll;
-        setCheckAll(newCheckAll);
-        setCheckedItems(Array(10).fill(newCheckAll));
+    const formData = {
+      typeAnalyse: type,
+      minDate: min,
+      maxDate: max,
+      cryptoIds: selectedCryptoIds,
     };
 
-    const handleCheckboxChange = (index: number) => {
-        const newCheckedItems = [...checkedItems];
-        newCheckedItems[index] = !newCheckedItems[index];
-        setCheckedItems(newCheckedItems);
+    console.log("formData: ", formData);
 
-        if (newCheckedItems.every((item) => item)) {
-            setCheckAll(true);
-        } else {
-            setCheckAll(false);
+    try {
+      const response = await fetch(
+        "http://localhost:8089/api/analyse/crypto/resultat",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
         }
-    };
+      );
 
-    const handleTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setType(event.target.value)
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          `HTTP error! status: ${response.status}, message: ${
+            errorData.message || response.statusText
+          }`
+        );
+      }
+
+      const result = await response.json();
+      setResultats(result);
+      console.log("Analysis result:", result);
+    } catch (error) {
+      console.error("Error submitting form:", error);
     }
   };
   return (
@@ -135,6 +146,5 @@ const AnalyseCrypto: React.FC = () => {
         ) : "")}
     </div>
   );
-};
 
 export default AnalyseCrypto;
