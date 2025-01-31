@@ -5,17 +5,24 @@ type FilterProps = {
   url: string;
   setData: (data) => void;
   cryptoData: Crypto[];
+  minValue: string;
+  maxValue: string;
 };
 
 const AnalyseFilters: React.FC<FilterProps> = ({
   url,
   setData,
   cryptoData,
+  minValue,
+  maxValue,
 }) => {
   const [checkAll, setCheckAll] = useState(true);
   const [checkedItems, setCheckedItems] = useState<boolean[]>(
     Array(10).fill(true)
   );
+  const [type, setType] = useState<string>("1");
+  const [min, setMin] = useState<string>(minValue);
+  const [max, setMax] = useState<string>(maxValue);
 
   const handleCheckAll = () => {
     const newCheckAll = !checkAll;
@@ -35,30 +42,43 @@ const AnalyseFilters: React.FC<FilterProps> = ({
     }
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
-      event.preventDefault(); // Prevent default form submission
-  
-      const selectedCryptoIds = checkedItems
-        .map((isChecked, index) => (isChecked ? cryptoData[index]?.id : null))
-        .filter((id) => id !== null); // Filter out null values (unchecked items)
-  
-      const formData = {
-        typeAnalyse: event.currentTarget.type.value,
-        minDate: event.currentTarget.min.value,
-        maxDate: event.currentTarget.max.value,
-        cryptoIds: selectedCryptoIds,
-      };
-  
-      console.log("formData: ", formData);
-  
-      try {
-        const response = await api.post(url, formData);
-  
-        setData(response.data);
-      } catch (error) {
-        console.error("Error submitting form:", error);
-      }
+  const handleTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+      setType(event.target.value);
     };
+  
+    const handleMinChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setMin(event.target.value);
+    };
+  
+    const handleMaxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setMax(event.target.value);
+    };
+  
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault(); // Prevent default form submission
+
+    const selectedCryptoIds = checkedItems
+      .map((isChecked, index) => (isChecked ? cryptoData[index]?.id : null))
+      .filter((id) => id !== null); // Filter out null values (unchecked items)
+
+    const formData = {
+      typeAnalyse: event.currentTarget.type.value,
+      minDate: event.currentTarget.min.value,
+      maxDate: event.currentTarget.max.value,
+      cryptoIds: selectedCryptoIds,
+    };
+
+    console.log("formData: ", formData);
+
+    try {
+      const response = await api.post(url, formData);
+
+      setData(response.data);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="mb-5">
@@ -69,6 +89,7 @@ const AnalyseFilters: React.FC<FilterProps> = ({
           </label>
           <div className="flex flex-row">
             <select
+              onChange={handleTypeChange}
               name="type"
               id="type"
               className="h-11 p-2 border border-lavender bg-light rounded-lg font-body focus:ring-main focus:border-none"
@@ -89,7 +110,9 @@ const AnalyseFilters: React.FC<FilterProps> = ({
             <input
               type="datetime-local"
               id="min"
+              onChange={handleMinChange}
               name="min"
+              value={min}
               className="h-11 p-2 border border-lavender bg-light rounded-lg font-body focus:ring-main focus:border-none"
               // required
             />
@@ -104,6 +127,8 @@ const AnalyseFilters: React.FC<FilterProps> = ({
               type="datetime-local"
               id="max"
               name="max"
+              value={max}
+              onChange={handleMaxChange}
               className="h-11 p-2 border border-lavender bg-light rounded-lg font-body focus:ring-main focus:border-none"
               // required
             />
