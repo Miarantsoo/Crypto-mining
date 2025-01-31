@@ -4,9 +4,10 @@ import { motion } from "framer-motion";
 
 interface ToggleTabsProps {
   options: { label: string; path: string }[];
+  onSelect: (path: string) => void;
 }
 
-const ToggleTabs: React.FC<ToggleTabsProps> = ({ options }) => {
+const ToggleTabs: React.FC<ToggleTabsProps> = ({ options, onSelect }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [selected, setSelected] = useState<string>(options[0].path);
@@ -19,6 +20,7 @@ const ToggleTabs: React.FC<ToggleTabsProps> = ({ options }) => {
 
   const handleChange = (path: string) => {
     setSelected(path);
+    onSelect(path);
     // navigate(path);
   };
 

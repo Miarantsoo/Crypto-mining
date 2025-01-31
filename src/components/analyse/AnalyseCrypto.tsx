@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Bg from "../../assets/img/bg.jpg";
 import AnalyseFilters from "./AnalyseFilters";
-
-interface IResult {
-  nom: string;
-  valeur: number;
-}
+import GenericTable from "../generic/GenericTable";
+import GenericBarChart from "../generic/GenericBarChart";
+import { IResult } from "../../types/results";
+import ToggleTabs from "../generic/ToggleTabs";
 
 const AnalyseCrypto: React.FC = () => {
   const getCurrentDateTime = () => {
@@ -17,6 +15,11 @@ const AnalyseCrypto: React.FC = () => {
     const minutes = String(now.getMinutes()).padStart(2, "0");
     return `${year}-${month}-${day}T${hours}:${minutes}`;
   };
+
+  const viewOptions = [
+    { label: "Table", path: "table" },
+    { label: "Chart", path: "bar-chart" },
+  ];
 
   const [checkAll, setCheckAll] = useState(false);
   const [checkedItems, setCheckedItems] = useState<boolean[]>(
@@ -31,6 +34,7 @@ const AnalyseCrypto: React.FC = () => {
 
   const [min, setMin] = useState<string>(getCurrentDateTime);
   const [max, setMax] = useState<string>(getCurrentDateTime);
+  const [view, setView] = useState<string>("table");
 
   useEffect(() => {
     const fetchCryptoData = async () => {
@@ -65,41 +69,11 @@ const AnalyseCrypto: React.FC = () => {
     };
 
     fetchCryptoData();
-  }, []);
-
+  })
+  
   useEffect(() => {
-    handleSubmit();
-  }, [first]);
-
-  const handleCheckAll = () => {
-    const newCheckAll = !checkAll;
-    setCheckAll(newCheckAll);
-    setCheckedItems(Array(10).fill(newCheckAll));
-  };
-
-  const handleCheckboxChange = (index: number) => {
-    const newCheckedItems = [...checkedItems];
-    newCheckedItems[index] = !newCheckedItems[index];
-    setCheckedItems(newCheckedItems);
-
-    if (newCheckedItems.every((item) => item)) {
-      setCheckAll(true);
-    } else {
-      setCheckAll(false);
-    }
-  };
-
-  const handleTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setType(event.target.value);
-  };
-
-  const handleMinChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMin(event.target.value);
-  };
-
-  const handleMaxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMax(event.target.value);
-  };
+      handleSubmit();
+  },[first]);
 
   const handleSubmit = async () => {
     const selectedCryptoIds = checkedItems
@@ -144,52 +118,33 @@ const AnalyseCrypto: React.FC = () => {
     }
   };
   return (
-    <div
-      className="w-full min-h-dvh bg-cover flex flex-row p-6"
-      style={{ backgroundImage: `url(${Bg})` }}
-    >
-      <div className="bg-light rounded-lg w-full px-8 py-8">
-        <div className="mb-5">
-          <h1 className="font-title font-bold uppercase text-dark text-4xl">
-            Analyse Crypto
-          </h1>
-        </div>
-        
-        <AnalyseFilters
-          url={"/analyse/crypto/resultat"}
-          setData={setResultats}
-          cryptoData={cryptoData}
-          minValue={min}
-          maxValue={max}
-        ></AnalyseFilters>
-
-        {resultats && resultats.length > 0 && (
-          <div className="mt-8 border rounded-lg overflow-hidden shadow-md">
-            <table className="w-full text-left table-fixed min-w-max rounded-lg font-body">
-              <thead className="border-b bg-lavender-50 border-b-lavender">
-                <tr>
-                  <th className="p-4 text-lg text-main font-extrabold">
-                    Crypto
-                  </th>
-                  <th className="p-4 text-lg text-main font-extrabold">
-                    Valeur
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {resultats.map((resultat, index) => (
-                  <tr key={index} className="border-b border-b-lavender">
-                    <td className="p-4">{resultat.nom}</td>
-                    <td className="p-4">{resultat.valeur}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+    <div className="px-5 py-5">
+      <div className="mb-5 flex flex-row justify-between w-full">
+        <h1 className="font-title font-bold uppercase text-dark text-4xl">
+          Analyse Crypto
+        </h1>
+        <ToggleTabs options={viewOptions} onSelect={setView}></ToggleTabs>
       </div>
+
+      <AnalyseFilters
+        url={"/analyse/crypto/resultat"}
+        setData={setResultats}
+        cryptoData={cryptoData}
+        minValue={min}
+        maxValue={max}
+      ></AnalyseFilters>
+
+      {resultats &&
+        resultats.length > 0 &&
+        (view === "table" ? (
+          <GenericTable
+            headers={["Crypto", "Valeur"]}
+            tableContents={resultats.map((obj) => [obj.nom, obj.valeur])}
+          />
+        ) : view === "bar-chart" ? (
+          <GenericBarChart data={resultats} />
+        ) : "")}
     </div>
   );
-};
-
+}
 export default AnalyseCrypto;
