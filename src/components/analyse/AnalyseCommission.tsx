@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import AnalyseFilters from "./AnalyseFilters";
-import GenericTable from "../generic/GenericTable";
-import GenericBarChart from "../generic/GenericBarChart";
+import { useState, useEffect } from "react";
 import { IResult } from "../../types/form";
+import GenericBarChart from "../generic/GenericBarChart";
+import GenericTable from "../generic/GenericTable";
 import ToggleTabs from "../generic/ToggleTabs";
+import AnalyseFilters from "./AnalyseFilters";
 
-const AnalyseCrypto: React.FC = () => {
+const AnalyseCommission = () => {
   const getCurrentDateTime = () => {
     const now = new Date();
     const year = now.getFullYear();
@@ -21,14 +21,14 @@ const AnalyseCrypto: React.FC = () => {
     { label: "Chart", path: "bar-chart" },
   ];
 
-  const [checkAll, setCheckAll] = useState(false);
+  const [checkAll, setCheckAll] = useState(true);
   const [checkedItems, setCheckedItems] = useState<boolean[]>(
-    Array(10).fill(false)
+    Array(10).fill(true)
   );
   const [cryptoData, setCryptoData] = useState<any[]>([]);
 
   const [resultats, setResultats] = useState<IResult[]>([]);
-  const [type, setType] = useState<string>("1");
+  const [type, setType] = useState<string>("avg");
 
   const [first, setFirst] = useState<boolean>(false);
 
@@ -60,10 +60,7 @@ const AnalyseCrypto: React.FC = () => {
           setCheckAll(true);
         }
 
-        setTimeout(() => {
-          setFirst(true);
-        }, 1000);
-
+        setFirst(true);
       } catch (error) {
         console.error("Error fetching crypto data:", error);
       }
@@ -71,17 +68,17 @@ const AnalyseCrypto: React.FC = () => {
 
     fetchCryptoData();
   }, []);
-  
+
   useEffect(() => {
-    if (first) {
-      handleSubmit();
-    }
-  },[first]);
+    handleSubmit();
+  }, [first]);
 
   const handleSubmit = async () => {
     const selectedCryptoIds = checkedItems
       .map((isChecked, index) => (isChecked ? cryptoData[index]?.id : null))
       .filter((id) => id !== null);
+
+    console.log(selectedCryptoIds);
 
     const formData = {
       typeAnalyse: type,
@@ -94,7 +91,7 @@ const AnalyseCrypto: React.FC = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:8089/api/analyse/crypto/resultat",
+        "http://localhost:8089/api/commission/Analyse",
         {
           method: "POST",
           headers: {
@@ -124,38 +121,37 @@ const AnalyseCrypto: React.FC = () => {
     <div className="px-5 py-5">
       <div className="mb-5 flex flex-row justify-between w-full">
         <h1 className="font-title font-bold uppercase text-dark text-4xl">
-          Analyse Crypto
+          Analyse Commissions
         </h1>
         <ToggleTabs options={viewOptions} onSelect={setView}></ToggleTabs>
       </div>
 
       <AnalyseFilters
-        url={"/analyse/crypto/resultat"}
+        url={"/commission/Analyse"}
         setData={setResultats}
         cryptoData={cryptoData}
         minValue={min}
-        maxValue={max} typesAnalyse={[
-          {value: "1", display: "1er Quartile"},
-          {value: "2", display: "Max"},
-          {value: "3", display: "Min"},
-          {value: "4", display: "Moyenne"},
-          {value: "5", display: "Ecart-type"},
-        ]}      />
+        maxValue={max}
+        typesAnalyse={[
+          {value: "avg", display: "Moyenne"},
+          {value: "sum", display: "Somme"},
+        ]}
+      ></AnalyseFilters>
 
       {resultats &&
         resultats.length > 0 &&
         (view === "table" ? (
           <GenericTable
             headers={["Crypto", "Valeur"]}
-            tableContents={resultats.map((obj) => [
-              { value: obj.nom, redirect: null }, 
-              { value: obj.valeur, redirect: null }
-            ])}
+            tableContents={resultats.map((obj) => [obj.nom, obj.valeur])}
           />
         ) : view === "bar-chart" ? (
           <GenericBarChart data={resultats} />
-        ) : "")}
+        ) : (
+          ""
+        ))}
     </div>
   );
-}
-export default AnalyseCrypto;
+};
+
+export default AnalyseCommission;

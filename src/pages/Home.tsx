@@ -1,14 +1,16 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "../components/sidebar/Sidebar";
 import Bg from "./../assets/img/bg.jpg"
-import axiosInstance from "../api/AxiosConfig";
 import { useEffect, useState } from "react";
+import axiosInstance from "../api/AxiosConfig";
 
+
+// @ts-ignore
 const Home: React.FC = () => {
     const[ connectedUser, setConnectedUser ] = useState<Object | null>(null);
 
     useEffect(() => {
-        console.log("qfe");
+        // console.log("qfe");
 
         const getUser = async () => {
             const result = await axiosInstance.post('/utilisateur/get-utilisateur', {
@@ -27,7 +29,7 @@ const Home: React.FC = () => {
     }, [connectedUser]);
 
     return (
-        <div 
+        <div
             className="flex flex-row bg-cover"
             style={{ backgroundImage: `url(${Bg})` }}
         >
@@ -41,4 +43,6 @@ const Home: React.FC = () => {
     );
 };
 
-export default Home
+export default Home;
+
+
