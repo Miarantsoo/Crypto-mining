@@ -15,7 +15,7 @@ const SidebarHeader: React.FC = () => {
       </div>
       <div className="flex flex-col">
         <p className="font-body text-dark text-lg">Hello 👋,</p>
-        <p className="font-body font-extrabold text-dark text-lg">{user?.nom}</p>
+        <p className="font-body font-extrabold text-dark text-lg">{user?.prenom}</p>
       </div>
     </div>
   );

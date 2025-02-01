@@ -33,7 +33,7 @@ const AnalyseCommission = () => {
   const [min, setMin] = useState<string>(getCurrentDateTime());
   const [max, setMax] = useState<string>(getCurrentDateTime());
   const [view, setView] = useState<string>("table");
-  const [showCommissionModal, setShowCommissionModal] = useState(true);
+  const [showCommissionModal, setShowCommissionModal] = useState(false);
 
   useEffect(() => {
     const fetchCryptoData = async () => {
