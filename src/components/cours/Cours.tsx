@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { LineChart } from "@mui/x-charts";
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
+import { Alert } from "flowbite-react";
 import api from "../../api/JavaAxiosConfig";
 import { Crypto } from "../../types/crypto";
 
@@ -18,6 +19,7 @@ const Cours = () => {
   const [histoCrypto, setHistoCrypto] = useState<HistoCrypto[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const [alert, setAlert] = useState<{ message: string; type: "success" | "failure" } | null>(null);
 
   useEffect(() => {
     const fetchCryptos = async () => {
@@ -78,6 +80,47 @@ const Cours = () => {
     await getLatestValues(allCryptos[index].id);
   };
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // Prevent default form submission
+
+    const formData = new FormData(event.currentTarget);
+    const idUser = formData.get("idUser");
+    const idCrypto = formData.get("idCrypto");
+    const quantity = formData.get("quantite");
+
+    try {
+      const response = await api.post(
+        "/mvt-crypto/buy",
+        {
+          idUser: idUser,
+          idCrypto: idCrypto,
+          quantite: Number(quantity),
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // Set the alert based on response success
+      setAlert({
+        message: response.data.message,
+        type: response.data.success ? "success" : "failure",
+      });
+      
+      console.log(response.data);
+    } catch (error: any) {
+      console.error(error);
+      setAlert({
+        message:
+          error.response?.data?.message ||
+          "Une erreur est survenue lors de la soumission.",
+        type: "failure",
+      });
+    }
+  };
+
   return (
     <div className="relative w-full mx-auto flex flex-col justify-center px-5 py-5">
       <div className="mb-5">
@@ -112,7 +155,7 @@ const Cours = () => {
                       hour: "2-digit",
                       minute: "2-digit",
                       second: "2-digit",
-                      timeZone: "UTC", // Add this line to use UTC timezone
+                      timeZone: "UTC", // Use UTC timezone
                     }),
                 },
               ]}
@@ -127,7 +170,7 @@ const Cours = () => {
             />
           </div>
 
-          <div className=" mt-5 flex items-center justify-center self-center">
+          <div className="mt-5 flex items-center justify-center self-center">
             <AnimatePresence>
               {allCryptos.length > 0 &&
                 allCryptos.map((crypto, index) => {
@@ -176,22 +219,44 @@ const Cours = () => {
               Valeur unitaire
             </p>
             <p className="font-body text-4xl font-bold">
-              {histoCrypto[0] !== undefined ? histoCrypto[0].valeur + " " : " "}€
+              {histoCrypto[0] !== undefined ? histoCrypto[0].valeur + " " : ""}€
             </p>
           </div>
 
-          <form className="flex flex-row gap-2">
+          <form className="flex flex-row gap-2" onSubmit={handleSubmit}>
+            <input type="hidden" name="idUser" value={1} />
+            <input type="hidden" name="idCrypto" value={allCryptos[selectedIndex]?.id} />
             <input
               type="number"
               placeholder="Quantité"
+              name="quantite"
               className="text-dark bg-light focus:ring-0 font-body rounded-lg"
             />
-              <button className="rounded-lg w-1/2 bg-secondary hover:bg-secondary-600 text-light px-5 py-3 font-body flex flex-row gap-2 items-center">
-                Acheter
-              </button>
+            <button
+              className="rounded-lg w-1/2 bg-secondary hover:bg-secondary-600 text-light px-5 py-3 font-body flex flex-row gap-2 items-center"
+              type="submit"
+            >
+              Acheter
+            </button>
           </form>
         </div>
       </div>
+
+      {/* Dismissible Flowbite Alert */}
+      {alert && (
+        <div className="fixed bottom-4 right-4 z-50">
+          <Alert
+            color={alert.type}
+            onDismiss={() => setAlert(null)}
+            dismissible
+          >
+            <span className="font-medium">
+              {alert.type === "success" ? "Succès" : "Erreur"} :
+            </span>{" "}
+            {alert.message}
+          </Alert>
+        </div>
+      )}
     </div>
   );
 };
