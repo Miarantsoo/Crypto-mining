@@ -46,6 +46,8 @@ const Verification: React.FC = () => {
           }
         );
         localStorage.setItem("token", response.data.data.data);
+
+
         navigate("/home");
 
         console.log(response.data.data);

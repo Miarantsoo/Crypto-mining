@@ -1,48 +1,44 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "../components/sidebar/Sidebar";
-import Bg from "./../assets/img/bg.jpg"
+import Bg from "./../assets/img/bg.jpg";
 import { useEffect, useState } from "react";
-import axiosInstance from "../api/AxiosConfig";
+import { UserInterface, UserProvider } from "../context/UserContext.tsx";
+import axiosInstance from "../api/AxiosConfig.ts";
 
-
-// @ts-ignore
 const Home: React.FC = () => {
-    const[ connectedUser, setConnectedUser ] = useState<Object | null>(null);
+    const [user, setUser] = useState<UserInterface | null>(null);
 
     useEffect(() => {
-        // console.log("qfe");
-
         const getUser = async () => {
-            const result = await axiosInstance.post('/utilisateur/get-utilisateur', {
-                headers: {
-                    'Content-type': 'application/json'
+            try {
+                const result = await axiosInstance.post('/utilisateur/get-utilisateur', {
+                    headers: { 'Content-type': 'application/json' }
+                });
+
+                if (result.data && result.data.data) {
+                    console.log("Utilisateur récupéré :", result.data.data.data);
+                    setUser(result.data.data.data as UserInterface);
                 }
-            });
-            // console.log();
-            setConnectedUser(result.data.data.data);
-        } 
+            } catch (error) {
+                console.error("Erreur lors de la récupération de l'utilisateur :", error);
+            }
+        };
 
         getUser();
-        
-        // console.log(connectedUser);
-        
-    }, [connectedUser]);
+    }, []);
 
     return (
-        <div
-            className="flex flex-row bg-cover"
-            style={{ backgroundImage: `url(${Bg})` }}
-        >
-            <aside className="w-1/5">
-                <Sidebar />
-            </aside>
-            <main className="bg-light w-4/5 h-[97dvh] mr-3 my-3 p-5 rounded-3xl overflow-x-hidden overflow-y-scroll">
-                <Outlet />
-            </main>
-        </div>
+        <UserProvider value={{ user, setUser }}> {/* Fournit l'utilisateur à tous les enfants */}
+            <div className="flex flex-row bg-cover" style={{ backgroundImage: `url(${Bg})` }}>
+                <aside className="w-1/5">
+                    <Sidebar />
+                </aside>
+                <main className="bg-light w-4/5 mr-3 my-3 p-5 rounded-3xl">
+                    <Outlet />
+                </main>
+            </div>
+        </UserProvider>
     );
 };
 
 export default Home;
-
-

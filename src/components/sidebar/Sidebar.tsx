@@ -1,8 +1,11 @@
 import { FaWallet, FaChartLine, FaMagnifyingGlassDollar, FaMoneyBillTransfer, FaSackDollar } from "react-icons/fa6";
 import SidebarMenu from "./SidebarMenu";
 import SidebarHeader from "./SidebarHeader";
+import {useUserContext} from "../../context/UserContext.tsx";
 
 const Sidebar: React.FC = () => {
+	const { user } = useUserContext();
+	console.log("Utilisateur dans Sidebar :", user);
 
 	const menu = [
 		{icon: <FaChartLine className="w-7 h-6"/>, text: "Cours", direction: "/home/cours"},

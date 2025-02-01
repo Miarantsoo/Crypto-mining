@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import {createContext, ReactNode, useContext, } from 'react';
 
 export interface UserInterface {
     id: number;
@@ -14,19 +14,17 @@ interface UserContextType {
     setUser: (user: UserInterface | null) => void;
 }
 
-const UserContext = createContext<UserContextType>({
-    user: null,
-    setUser: () => {},
-});
+// Contexte initialisé avec une valeur par défaut
+const UserContext = createContext<UserContextType | undefined>(undefined);
 
-export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [user, setUser] = useState<UserInterface | null>(null);
-
-    return (
-        <UserContext.Provider value={{ user, setUser }}>
-            {children}
-        </UserContext.Provider>
-    );
+export const UserProvider = ({ value, children }: { value: UserContextType; children: ReactNode }) => {
+    return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
 
-export const useUserContext = () => useContext(UserContext);
+export const useUserContext = () => {
+    const context = useContext(UserContext);
+    if (!context) {
+        throw new Error("useUserContext must be used within a UserProvider");
+    }
+    return context;
+};

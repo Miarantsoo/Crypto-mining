@@ -1,7 +1,7 @@
 import React from "react";
 import Bg from "../assets/img/bg.jpg";
-import { Outlet, useNavigate } from "react-router";
-import { FaArrowLeft } from "react-icons/fa6";
+import { Outlet } from "react-router";
+// import { FaArrowLeft } from "react-icons/fa6";
 
 const ProfilWrapper: React.FC = () => {
 
