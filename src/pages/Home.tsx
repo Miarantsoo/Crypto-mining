@@ -36,7 +36,7 @@ const Home: React.FC = () => {
             <aside className="w-1/5">
                 <Sidebar />
             </aside>
-            <main className="bg-light w-4/5 mr-3 my-3 p-5 rounded-3xl">
+            <main className="bg-light w-4/5 h-[97dvh] mr-3 my-3 p-5 rounded-3xl overflow-x-hidden overflow-y-scroll">
                 <Outlet />
             </main>
         </div>
