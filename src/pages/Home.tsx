@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "../components/sidebar/Sidebar";
-import Bg from "./../assets/img/bg.jpg"
+import Bg from "./../assets/img/bg.jpg";
 import {useEffect, useState} from "react";
 import {UserInterface, UserProvider, useUserContext} from "../context/UserContext.tsx";
 import axiosInstance from "../api/AxiosConfig.ts";

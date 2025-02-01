@@ -42,27 +42,31 @@ const Profil: React.FC<ProfilProps> = ({ user }) => {
             </span>
           </h1>
           <InfoSection header={"Email"} content={user.mail}></InfoSection>
-          <InfoSection header={"Date de naissance"} content={user.dateNaissance}></InfoSection>
-          
+          <InfoSection
+            header={"Date de naissance"}
+            content={user.dateNaissance}
+          ></InfoSection>
+
           <Solde></Solde>
         </div>
       </div>
-      <div className="flex flex-col w-1/6">
-            <button
-            className="mt-5 mx-7 bg-main hover:bg-main-700 px-5 py-6 font-body rounded-3xl h-10 flex items-center justify-center text-light gap-4"
-            onClick={() => navigation(-1)}
-            >
-            <FaArrowLeft className="text-light text-2xl ml-2 inline-block" />
-            Retour
-            </button>
 
-            <button
+      <div className="flex flex-col w-1/6">
+        <button
+          className="mt-5 mx-7 bg-main hover:bg-main-700 px-5 py-6 font-body rounded-3xl h-10 flex items-center justify-center text-light gap-4"
+          onClick={() => navigation(-1)}
+        >
+          <FaArrowLeft className="text-light text-2xl ml-2 inline-block" />
+          Retour
+        </button>
+
+        {/* <button
             className="mt-5 mx-7 border-2 border-main hover:border-main-700 px-5 py-3 font-body rounded-3xl w-max h-fit text-main hover:text-main-700"
             onClick={() => navigation("/profil/modif")}
             >
             Modifier le profil
-            </button>
-        </div>
+            </button> */}
+      </div>
     </div>
   );
 };

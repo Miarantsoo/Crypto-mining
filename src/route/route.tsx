@@ -1,15 +1,18 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import Home from "../pages/Home";
-import Cours from "../components/Cours";
+import Cours from "../components/cours/Cours";
 import Login from "../components/access/Login";
 import Signup from "../components/access/Signup";
 import Access from "../pages/Access";
 import CodeVerification from "../pages/CodeVerification";
 import Portefeuille from "../components/achats-ventes/Portefeuille";
 import ListeAchatVente from "../components/achats-ventes/ListeAchatVente";
-import ProfilWrapper from "../pages/ProfilWrapper";
+import StandaloneCard from "../pages/StandaloneCard";
 import ProfilModif from "../components/profil/ProfilModif";
 import Profil from "../components/profil/Profil";
+import FiltreAchatVente from "../components/achats-ventes/FiltreAchatVente.tsx";
+import AnalyseCrypto from "../components/analyse/AnalyseCrypto.tsx";
+import AnalyseCommission from "../components/analyse/AnalyseCommission.tsx";
 
 export const browserRouter = createBrowserRouter([
     {
@@ -41,6 +44,10 @@ export const browserRouter = createBrowserRouter([
         element: <Home />,
         children: [
             {
+                path: "",
+                element: <Cours />,
+            },
+            {
                 path: "cours",
                 element: <Cours />,
             },
@@ -52,7 +59,7 @@ export const browserRouter = createBrowserRouter([
     },
     {
         path: "/profil",
-        element: <ProfilWrapper />,
+        element: <StandaloneCard />,
         children: [
             {
                 path: "",
@@ -73,6 +80,30 @@ export const browserRouter = createBrowserRouter([
     },
     {
         path: "/achats-ventes",
-        element: <ListeAchatVente />
+        element: <StandaloneCard />,
+        children: [
+            {
+                path: "",
+                element: <ListeAchatVente />
+            },
+            {
+                path: "filtre",
+                element: <FiltreAchatVente />
+            },
+        ]
+    },
+    {
+        path: "/analyse",
+        element: <Home />,
+        children: [
+            {
+                path: "crypto",
+                element: <AnalyseCrypto />
+            },
+            {
+                path: "commissions",
+                element: <AnalyseCommission />
+            },
+        ]
     },
 ]);
