@@ -22,13 +22,19 @@ const Home: React.FC = () => {
             });
             // console.log();
             setConnectedUser(result.data.data.data);
-            setUser(connectedUser as UserInterface)
         }
 
-        getUser()
-        console.log("HomeUser")
-        console.log(connectedUser);
-        // setUser(connectedUser as UserInterface)
+        const fetchData = async () =>{
+            await getUser();
+            setUser(connectedUser as UserInterface);
+            console.log("HomeUser")
+            console.log(connectedUser);
+        }
+
+        fetchData()
+        // console.log("HomeUser")
+        // console.log(connectedUser);
+        // // setUser(connectedUser as UserInterface)
 
     }, []);
 

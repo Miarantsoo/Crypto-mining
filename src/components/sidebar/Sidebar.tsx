@@ -1,9 +1,12 @@
 import { FaWallet, FaChartLine } from "react-icons/fa6";
 import SidebarMenu from "./SidebarMenu";
 import SidebarHeader from "./SidebarHeader";
+import {useUserContext} from "../../context/UserContext.tsx";
 
 const Sidebar: React.FC = () => {
-
+	const { user } = useUserContext();
+	console.log("SidebarHeaderLog");
+	console.log(user);
 	const menu = [
 		{icon: <FaChartLine className="w-7 h-6"/>, text: "Cours", direction: "/home/cours"},
 		{icon: <FaWallet className="w-7 h-6"/>, text: "Portefeuille", direction: "portefeuille"}
