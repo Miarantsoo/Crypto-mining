@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaCoins, FaCirclePlus, FaCircleMinus } from "react-icons/fa6";
 import { Alert } from "flowbite-react";
 import { UserInterface } from "../../context/UserContext.tsx";
@@ -10,14 +10,23 @@ type SoldeProps = {
 
 const Solde: React.FC<SoldeProps> = ({ user }) => {
   const [somme, setSomme] = useState<number>(0);
-  const [action, setAction] = useState<string>("depot");
   const [alert, setAlert] = useState<{ message: string; type: "success" | "failure" } | null>(null);
+  const [solde, setSolde] = useState<number>(0);
 
   const changeSomme = (n: number) => {
     setSomme(n);
   };
 
-  const handleSubmit = async () => {
+  const fetchSolde = async () => {
+    try {
+      const response = await api.get(`fond/donnee/${user?.id}`);
+      setSolde(response.data);
+    } catch (error) {
+      console.error("Error fetching balance:", error);
+    }
+  };
+
+  const handleSubmit = async (actionType: "depot" | "retrait") => {
     const data = {
       id: user.id,
       somme: somme,
@@ -25,26 +34,42 @@ const Solde: React.FC<SoldeProps> = ({ user }) => {
     };
 
     try {
-      const response = await api.post(`fond/${action}`, data, {
+      const response = await api.post(`fond/${actionType}`, data, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-      console.log(response.data);
-      // Set the alert message and type based on response.data.success
+      
       setAlert({
         message: response.data.message,
         type: response.data.success ? "success" : "failure",
       });
+
+      if (response.data.success) {
+        // Refresh the balance by calling fetchSolde
+        await fetchSolde();
+      }
     } catch (error: any) {
-      // Optionally handle errors from the request
       console.error("Submission error:", error);
       setAlert({
-        message: "Une erreur est survenue lors de la soumission.",
+        message: error.response?.data?.message || "Une erreur est survenue lors de la soumission.",
         type: "failure",
       });
     }
   };
+
+  useEffect(() => {
+    if (user?.id) {
+      fetchSolde();
+    }
+  }, [user?.id]);
+
+  useEffect(() => {
+    if (alert) {
+      const timer = setTimeout(() => setAlert(null), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [alert]);
 
   return (
     <>
@@ -56,7 +81,11 @@ const Solde: React.FC<SoldeProps> = ({ user }) => {
           </h1>
         </div>
         <p className="text-light text-4xl font-body font-bold">
-          10 600 000,50 €
+          {solde.toLocaleString("fr-FR", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}
+          €
         </p>
         <div className="h-[1px] border-b border-b-lavender"></div>
         <form className="flex flex-col gap-2">
@@ -70,9 +99,8 @@ const Solde: React.FC<SoldeProps> = ({ user }) => {
             <button
               className="rounded-lg w-1/2 bg-secondary-500 hover:bg-secondary-600 text-light px-5 py-3 font-body flex flex-row gap-2 items-center"
               onClick={(e) => {
-                e.preventDefault(); // Prevent form submission
-                setAction("depot");
-                handleSubmit();
+                e.preventDefault();
+                handleSubmit("depot");
               }}
             >
               <FaCirclePlus />
@@ -81,9 +109,8 @@ const Solde: React.FC<SoldeProps> = ({ user }) => {
             <button
               className="rounded-lg w-1/2 bg-red-500 hover:bg-red-600 text-light px-5 py-3 font-body flex flex-row gap-2 items-center"
               onClick={(e) => {
-                e.preventDefault(); // Prevent form submission
-                setAction("retrait");
-                handleSubmit();
+                e.preventDefault();
+                handleSubmit("retrait");
               }}
             >
               <FaCircleMinus />
@@ -92,10 +119,14 @@ const Solde: React.FC<SoldeProps> = ({ user }) => {
           </div>
         </form>
       </div>
-      {/* Alert positioned at the bottom right */}
+
       {alert && (
         <div className="fixed bottom-4 right-4 z-50">
-          <Alert color={alert.type}>
+          <Alert 
+            color={alert.type} 
+            onDismiss={() => setAlert(null)}
+            dismissible
+          >
             <span className="font-medium">
               {alert.type === "success" ? "Succès" : "Erreur"} :
             </span>
