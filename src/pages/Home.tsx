@@ -1,49 +1,35 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "../components/sidebar/Sidebar";
 import Bg from "./../assets/img/bg.jpg";
-import {useEffect, useState} from "react";
-import {UserInterface, UserProvider, useUserContext} from "../context/UserContext.tsx";
+import { useEffect, useState } from "react";
+import { UserInterface, UserProvider } from "../context/UserContext.tsx";
 import axiosInstance from "../api/AxiosConfig.ts";
 
-
-// @ts-ignore
 const Home: React.FC = () => {
-    const[ connectedUser, setConnectedUser ] = useState<Object | null>(null);
-    const {setUser} = useUserContext();
+    const [user, setUser] = useState<UserInterface | null>(null);
 
     useEffect(() => {
-        // console.log("qfe");
-
         const getUser = async () => {
-            const result = await axiosInstance.post('/utilisateur/get-utilisateur', {
-                headers: {
-                    'Content-type': 'application/json'
+            try {
+                const result = await axiosInstance.post('/utilisateur/get-utilisateur', {
+                    headers: { 'Content-type': 'application/json' }
+                });
+
+                if (result.data && result.data.data) {
+                    console.log("Utilisateur récupéré :", result.data.data.data);
+                    setUser(result.data.data.data as UserInterface);
                 }
-            });
-            // console.log();
-            setConnectedUser(result.data.data.data);
-        }
+            } catch (error) {
+                console.error("Erreur lors de la récupération de l'utilisateur :", error);
+            }
+        };
 
-        const fetchData = async () =>{
-            await getUser();
-            setUser(connectedUser as UserInterface);
-            console.log("HomeUser")
-            console.log(connectedUser);
-        }
-
-        fetchData()
-        // console.log("HomeUser")
-        // console.log(connectedUser);
-        // // setUser(connectedUser as UserInterface)
-
+        getUser();
     }, []);
 
     return (
-        <UserProvider>
-            <div
-                className="flex flex-row bg-cover"
-                style={{ backgroundImage: `url(${Bg})` }}
-            >
+        <UserProvider value={{ user, setUser }}> {/* Fournit l'utilisateur à tous les enfants */}
+            <div className="flex flex-row bg-cover" style={{ backgroundImage: `url(${Bg})` }}>
                 <aside className="w-1/5">
                     <Sidebar />
                 </aside>
@@ -56,5 +42,3 @@ const Home: React.FC = () => {
 };
 
 export default Home;
-
-

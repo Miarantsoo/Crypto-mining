@@ -1,7 +1,24 @@
-import React from "react";
+import React, {useState} from "react";
 import { FaCoins, FaCirclePlus, FaCircleMinus } from "react-icons/fa6";
+import {UserInterface} from "../../context/UserContext.tsx";
+import api from "../../api/JavaAxiosConfig.ts";
 
-const Solde: React.FC = () => {
+type SoldeProps = {
+    user: UserInterface;
+};
+
+const Solde: React.FC<SoldeProps> = ({ user }) => {
+
+    const [transactionValue,setTransactionValue]  = useState("");
+    const [fond, setFonds] = useState<>("");
+
+
+    const handleDepot = async () => {
+
+        const response = await api.post(`fond/depot`, );
+
+    };
+
   return (
     <div className="bg-gradient-to-br from-secondary to-main rounded-lg px-5 py-5 my-8 flex flex-col gap-5 w-full shadow-md">
       <div className="flex flex-row gap-5">
@@ -18,6 +35,8 @@ const Solde: React.FC = () => {
         <input
           type="number"
           placeholder="Somme en €"
+          values{transactionValue}
+          onChange={(e) => setTransactionValue(e.target.value)}
           className="text-dark bg-light focus:ring-0 font-body rounded-lg"
         />
         <div className="flex flex-row gap-2 w-full">
