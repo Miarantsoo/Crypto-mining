@@ -5,6 +5,7 @@ import { FaArrowRightArrowLeft } from "react-icons/fa6";
 import { Alert } from "flowbite-react";
 import api from "../../api/JavaAxiosConfig";
 import { Crypto } from "../../types/crypto";
+import { useUserContext } from "../../context/UserContext";
 
 type HistoCrypto = {
   id: number;
@@ -14,6 +15,8 @@ type HistoCrypto = {
 };
 
 const Cours = () => {
+  const { user } = useUserContext();
+
   const [allCryptos, setAllCryptos] = useState<Crypto[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [histoCrypto, setHistoCrypto] = useState<HistoCrypto[]>([]);
@@ -224,7 +227,7 @@ const Cours = () => {
           </div>
 
           <form className="flex flex-row gap-2" onSubmit={handleSubmit}>
-            <input type="hidden" name="idUser" value={1} />
+            <input type="hidden" name="idUser" value={user?.id} />
             <input type="hidden" name="idCrypto" value={allCryptos[selectedIndex]?.id} />
             <input
               type="number"
