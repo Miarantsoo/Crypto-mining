@@ -5,7 +5,7 @@ import { Alert } from "flowbite-react";
 import api from "../../api/JavaAxiosConfig";
 import { HiInformationCircle } from "react-icons/hi";
 import { AnimatePresence } from "framer-motion";
-
+import { useUserContext } from "../../context/UserContext";
 
 const Portefeuille: React.FC = () => {
   interface PortfolioData {
@@ -24,9 +24,9 @@ const Portefeuille: React.FC = () => {
     quantite: number;
   }
 
-  const [portefeuilleData, setPortefeuilleData] = useState<
-    PortfolioData[] | null
-  >(null);
+  const { user } = useUserContext();
+
+  const [portefeuilleData, setPortefeuilleData] = useState<PortfolioData[] | null>(null);
   const [sortConfig, setSortConfig] = useState<{
     key: keyof PortfolioData | "valeurTotale" | "crypto.nom";
     direction: "asc" | "desc";
@@ -38,16 +38,19 @@ const Portefeuille: React.FC = () => {
 
   const fetchData = async () => {
     try {
-      const response = await api.get("/mvt-crypto/wallet/1"); // Add your endpoint
+      const response = await api.get(`/mvt-crypto/wallet/${user?.id}`); // Add your endpoint
       setPortefeuilleData(response.data);
     } catch (error) {
       console.error("Error fetching portfolio data:", error);
     }
   };
 
+  // Only fetch data when user is defined
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (user) {
+      fetchData();
+    }
+  }, [user]);
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
@@ -66,15 +69,9 @@ const Portefeuille: React.FC = () => {
     }
   };
 
-  const handleSort = (
-    key: keyof PortfolioData | "valeurTotale" | "crypto.nom"
-  ) => {
+  const handleSort = (key: keyof PortfolioData | "valeurTotale" | "crypto.nom") => {
     let direction: "asc" | "desc" = "asc";
-    if (
-      sortConfig &&
-      sortConfig.key === key &&
-      sortConfig.direction === "asc"
-    ) {
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === "asc") {
       direction = "desc";
     }
     setSortConfig({ key, direction });
@@ -108,9 +105,7 @@ const Portefeuille: React.FC = () => {
       })
     : null;
 
-  const getSortIcon = (
-    key: keyof PortfolioData | "valeurTotale" | "crypto.nom"
-  ) => {
+  const getSortIcon = (key: keyof PortfolioData | "valeurTotale" | "crypto.nom") => {
     if (!sortConfig || sortConfig.key !== key)
       return <FaSort className="inline ml-1 text-gray-400" />;
     return sortConfig.direction === "asc" ? (
@@ -129,8 +124,7 @@ const Portefeuille: React.FC = () => {
           Portefeuille de cryptomonnaies
         </h1>
         <p className="font-body text-slate-500">
-          Cette page recense la quantité de toutes les cryptomonnaies que vous
-          possédez actuellement.
+          Cette page recense la quantité de toutes les cryptomonnaies que vous possédez actuellement.
         </p>
       </div>
 
@@ -145,7 +139,6 @@ const Portefeuille: React.FC = () => {
           </Alert>
         )}
       </AnimatePresence>
-
 
       <div className="border rounded-lg overflow-hidden shadow-md">
         <table className="w-full text-left table-fixed min-w-max rounded-lg font-body">
@@ -194,25 +187,17 @@ const Portefeuille: React.FC = () => {
                       e.preventDefault();
                       const form = e.target as HTMLFormElement;
                       const formData: FormData = {
-                        idUser: 1,
+                        idUser: user?.id || 0,
                         idCrypto: item.crypto.id,
                         quantite: parseFloat(
-                          (
-                            form.elements.namedItem(
-                              "quantite"
-                            ) as HTMLInputElement
-                          ).value
+                          (form.elements.namedItem("quantite") as HTMLInputElement).value
                         ),
                       };
                       onSubmit(formData);
                     }}
                   >
-                    <input type="hidden" name="idUser" value="1" />
-                    <input
-                      type="hidden"
-                      name="idCrypto"
-                      value={item.crypto.id}
-                    />
+                    <input type="hidden" name="idUser" value={user?.id} />
+                    <input type="hidden" name="idCrypto" value={item.crypto.id} />
                     <input
                       type="number"
                       name="quantite"
