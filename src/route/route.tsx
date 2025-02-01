@@ -12,6 +12,8 @@ import ProfilModif from "../components/profil/ProfilModif";
 import Profil from "../components/profil/Profil";
 import FiltreAchatVente from "../components/achats-ventes/FiltreAchatVente.tsx";
 import AnalyseCrypto from "../components/analyse/AnalyseCrypto.tsx";
+import HistoriqueOperation from "../components/achats-ventes/HistoriqueOperation.tsx";
+import HistoriqueOperationPerso from "../components/achats-ventes/HistoriqueOperationPerso.tsx";
 import AnalyseCommission from "../components/analyse/AnalyseCommission.tsx";
 import LoginAdmin from "../components/access/LoginAdmin.tsx";
 
@@ -76,6 +78,44 @@ export const browserRouter = createBrowserRouter([
             {
                 path: "modif",
                 element: <ProfilModif />
+            }
+        ]
+    },
+    {
+        path: "/achats-ventes",
+        element: <ListeAchatVente />
+    },
+    {
+        path: "/filtre-achat-vente",
+        element: <Home />,
+        children: [
+            {
+                path: "",
+                element: <FiltreAchatVente />
+            }
+        ]
+    },
+    {
+        path: "/analyse-crypto",
+        element: <Home />,
+        children: [
+            {
+                path: "",
+                element: <AnalyseCrypto />
+            }
+        ]
+    },
+    {
+        path: "/historique-operation",
+        element: <Home />,
+        children: [
+            {
+                path: "",
+                element: <HistoriqueOperation />
+            },
+            {
+                path: ":idUser",
+                element: <HistoriqueOperationPerso />
             }
         ]
     },

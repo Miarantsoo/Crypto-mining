@@ -156,23 +156,21 @@ const AnalyseCommission = () => {
         ]}
       />
 
-      {resultats && resultats.length > 0 && (
-        <motion.div
-          key={view}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mt-6"
-        >
-          {view === "table" ? (
-            <GenericTable
-              headers={["Crypto", "Valeur"]}
-              tableContents={resultats.map((obj) => [obj.nom, obj.valeur])}
-            />
-          ) : (
-            <GenericBarChart data={resultats} />
-          )}
-        </motion.div>
-      )}
+      {resultats &&
+        resultats.length > 0 &&
+        (view === "table" ? (
+          <GenericTable
+            headers={["Crypto", "Valeur"]}
+            tableContents={resultats.map((obj) => [
+              { value: obj.nom, redirect: null }, 
+              { value: obj.valeur, redirect: null }
+            ])}
+          />
+        ) : view === "bar-chart" ? (
+          <GenericBarChart data={resultats} />
+        ) : (
+          ""
+        ))}
     </div>
   );
 };
