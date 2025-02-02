@@ -32,6 +32,7 @@ const ProfilModif: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(true);
   const [alerts, setAlerts] = useState<AlertType[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -67,8 +68,9 @@ const ProfilModif: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user) return;
+    if (!user || isSubmitting) return;
 
+    setIsSubmitting(true);
     try {
       const payload = { ...formData };
       if (!showPassword || !payload.mdpSimple) delete payload.mdpSimple;
@@ -88,6 +90,8 @@ const ProfilModif: React.FC = () => {
     } catch (error: any) {
       showAlert("error", error.response?.data?.message || "Erreur de connexion");
       console.error("Update error:", error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -224,17 +228,46 @@ const ProfilModif: React.FC = () => {
 
             <button
               type="submit"
-              className="bg-main hover:bg-main-700 px-8 py-3 font-body rounded-xl text-light text-lg"
+              disabled={isSubmitting}
+              className={`bg-main hover:bg-main-700 px-8 py-3 font-body rounded-xl text-light text-lg flex items-center justify-center gap-2 ${
+                isSubmitting ? "opacity-75 cursor-not-allowed" : ""
+              }`}
             >
-              Sauvegarder les modifications
+              {isSubmitting ? (
+                <>
+                  <svg
+                    className="animate-spin h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  Sauvegarde en cours...
+                </>
+              ) : (
+                "Sauvegarder les modifications"
+              )}
             </button>
           </form>
         </div>
       </div>
 
-      <div className="flex flex-col py-8 w-1/6">
+      <div className="flex flex-col w-1/6">
         <button
-          className="mx-7 bg-main hover:bg-main-700 px-5 py-6 font-body rounded-3xl h-10 flex items-center justify-center text-light gap-4"
+          className="mt-5 mx-7 bg-main hover:bg-main-700 px-5 py-6 font-body rounded-3xl h-10 flex items-center justify-center text-light gap-4"
           onClick={() => navigation(-1)}
         >
           <FaArrowLeft className="text-light text-2xl ml-2 inline-block" />
