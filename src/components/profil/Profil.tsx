@@ -6,6 +6,7 @@ import Solde from "../fonds/Solde";
 import { useNavigate } from "react-router";
 import { UserInterface } from "../../context/UserContext.tsx";
 import axiosInstance from "../../api/AxiosConfig.ts";
+import LoadingSpinner from "../../components/loading/LoadingDotsText"; // Create this component
 
 const Profil: React.FC = () => {
   const navigation = useNavigate();
@@ -37,11 +38,7 @@ const Profil: React.FC = () => {
   }, []);
 
   if (!user) {
-    return (
-      <p className="text-center text-lg text-gray-500">
-        Chargement du profil...
-      </p>
-    );
+    return <LoadingSpinner text="Chargement du profil..." />;
   }
 
   return (
@@ -88,6 +85,12 @@ const Profil: React.FC = () => {
         >
           <FaArrowLeft className="text-light text-2xl ml-2 inline-block" />
           Retour
+        </button>
+        <button
+          className="mt-5 mx-7 border border-main hover:border-main-700 px-5 py-6 font-body rounded-3xl h-10 flex items-center justify-center text-main hover:text-main-700 gap-4"
+          onClick={() => navigation("modif")}
+        >
+          Modifier le profil
         </button>
       </div>
     </div>
