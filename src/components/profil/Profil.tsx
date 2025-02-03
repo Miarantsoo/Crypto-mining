@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Pfp from "../../assets/img/pfp.jpg";
+import Blank from "../../assets/img/blank-profile.png";
 import { FaArrowLeft, FaMars, FaVenus } from "react-icons/fa6";
 import InfoSection from "./InfoSection";
 import Solde from "../fonds/Solde";
 import { useNavigate } from "react-router";
 import { UserInterface } from "../../context/UserContext.tsx";
 import axiosInstance from "../../api/AxiosConfig.ts";
-import LoadingSpinner from "../../components/loading/LoadingDotsText"; // Create this component
+import LoadingSpinner from "../../components/loading/LoadingDotsText";
 
 const Profil: React.FC = () => {
   const navigation = useNavigate();
@@ -42,19 +43,25 @@ const Profil: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-row h-full">
-      <div className="flex flex-row gap-5 w-5/6">
-        <img
-          src={Pfp}
-          alt="Photo de profil"
-          className="w-1/3 h-full object-cover"
-        />
-        <div className="px-5 py-8 w-2/3">
+    <div className="flex flex-row h-full justify-between w-full">
+      <div className="flex flex-row justify-between gap-5 w-5/6">
+        <div className="w-1/3">
+          <div className="aspect-[3/4] h-full">
+            <img
+              src={Blank}
+              alt="Photo de profil"
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+        <div className="px-5 py-8 w-1/2 bg-light">
           <h1 className="font-title text-6xl font-bold uppercase text-dark">
             {user.prenom}
+            {/* Mia */}
           </h1>
           <h1 className="font-title text-6xl font-bold uppercase text-dark flex flex-row items-center">
-            {user.nom}
+            {user.nom}  
+            {/* Aina */}
             <span className="ml-5 text-4xl">
               {user.genre === 0 ? (
                 <FaVenus className="text-secondary-300" />
