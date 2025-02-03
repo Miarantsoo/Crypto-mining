@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaChevronRight, FaTimes } from "react-icons/fa";
 import { useNavigate } from "react-router";
 import { UserInterface } from "../../context/UserContext";
+import Blank from "../../assets/img/blank-profile.png";
 import axiosInstance from "../../api/AxiosConfig";
 import Pfp from "../../assets/img/pfp.jpg";
 import LoadingSpinner from "../../components/loading/LoadingDotsText";
@@ -24,9 +25,9 @@ const ProfilModif: React.FC = () => {
   const navigation = useNavigate();
   const [user, setUser] = useState<UserInterface | null>(null);
   const [formData, setFormData] = useState<FormFields>({
-    nom: '',
-    prenom: '',
-    dateNaissance: '',
+    nom: "",
+    prenom: "",
+    dateNaissance: "",
     genre: 0,
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -44,7 +45,9 @@ const ProfilModif: React.FC = () => {
           setFormData({
             nom: userData.nom,
             prenom: userData.prenom,
-            dateNaissance: new Date(userData.dateNaissance).toISOString().split('T')[0],
+            dateNaissance: new Date(userData.dateNaissance)
+              .toISOString()
+              .split("T")[0],
             genre: userData.genre,
           });
         }
@@ -60,9 +63,9 @@ const ProfilModif: React.FC = () => {
 
   const showAlert = (type: "success" | "error", message: string) => {
     const id = Date.now();
-    setAlerts(prev => [...prev, { id, type, message }]);
+    setAlerts((prev) => [...prev, { id, type, message }]);
     setTimeout(() => {
-      setAlerts(prev => prev.filter(alert => alert.id !== id));
+      setAlerts((prev) => prev.filter((alert) => alert.id !== id));
     }, 5000);
   };
 
@@ -80,15 +83,21 @@ const ProfilModif: React.FC = () => {
         payload,
         { headers: { "Content-Type": "application/json" } }
       );
-      
+
       if (response.data.status === "success") {
         showAlert("success", response.data.data.message);
         setTimeout(() => navigation(-1), 2000);
       } else {
-        showAlert("error", response.data.data.message || "Une erreur est survenue");
+        showAlert(
+          "error",
+          response.data.data.message || "Une erreur est survenue"
+        );
       }
     } catch (error: any) {
-      showAlert("error", error.response?.data?.message || "Erreur de connexion");
+      showAlert(
+        "error",
+        error.response?.data?.message || "Erreur de connexion"
+      );
       console.error("Update error:", error);
     } finally {
       setIsSubmitting(false);
@@ -103,18 +112,20 @@ const ProfilModif: React.FC = () => {
     <div className="flex flex-row h-full">
       {/* Alert notifications */}
       <div className="fixed bottom-4 right-4 z-50 space-y-2">
-        {alerts.map(alert => (
+        {alerts.map((alert) => (
           <div
             key={alert.id}
             className={`flex items-center p-4 rounded-lg shadow-lg ${
-              alert.type === "success" 
+              alert.type === "success"
                 ? "bg-green-100 text-green-700"
                 : "bg-red-100 text-red-700"
             }`}
           >
             <span>{alert.message}</span>
             <button
-              onClick={() => setAlerts(prev => prev.filter(a => a.id !== alert.id))}
+              onClick={() =>
+                setAlerts((prev) => prev.filter((a) => a.id !== alert.id))
+              }
               className="ml-4 hover:opacity-70"
             >
               <FaTimes />
@@ -123,77 +134,101 @@ const ProfilModif: React.FC = () => {
         ))}
       </div>
 
-      <div className="flex flex-row gap-5 w-5/6">
-      <div className="aspect-[3/4]">
-          <img
-            src={Pfp}
-            alt="Photo de profil"
-            className="w-full h-full object-cover"
-          />
+      <div className="flex flex-row justify-between gap-5 w-5/6">
+        <div className="w-1/3">
+          <div className="aspect-[3/4] h-full">
+            <img
+              src={Blank}
+              alt="Photo de profil"
+              className="w-full h-full object-cover"
+            />
+          </div>
         </div>
-        <div className="px-5 py-8 w-2/3">
+        <div className="px-5 py-8 w-1/2">
           <h1 className="font-title text-6xl font-bold uppercase text-dark mb-8">
             Modifier le profil
           </h1>
           <form className="font-body" onSubmit={handleSubmit}>
             <div className="mb-5 flex flex-row gap-5">
               <div className="flex flex-col w-1/2">
-                <label htmlFor="nom" className="font-bold mb-2">Nom</label>
-                <input 
-                  type="text" 
-                  name="nom" 
-                  value={formData.nom} 
-                  onChange={(e) => setFormData({...formData, nom: e.target.value})}
-                  className="text-dark bg-light focus:ring-0 font-body rounded-lg p-2 border" 
+                <label htmlFor="nom" className="font-bold mb-2">
+                  Nom
+                </label>
+                <input
+                  type="text"
+                  name="nom"
+                  value={formData.nom}
+                  onChange={(e) =>
+                    setFormData({ ...formData, nom: e.target.value })
+                  }
+                  className="text-dark bg-light focus:ring-0 font-body rounded-lg p-2 border"
                 />
               </div>
 
               <div className="flex flex-col w-1/2">
-                <label htmlFor="prenom" className="font-bold mb-2">Prénom</label>
-                <input 
-                  type="text" 
-                  name="prenom" 
-                  value={formData.prenom} 
-                  onChange={(e) => setFormData({...formData, prenom: e.target.value})}
-                  className="text-dark bg-light focus:ring-0 font-body rounded-lg p-2 border" 
+                <label htmlFor="prenom" className="font-bold mb-2">
+                  Prénom
+                </label>
+                <input
+                  type="text"
+                  name="prenom"
+                  value={formData.prenom}
+                  onChange={(e) =>
+                    setFormData({ ...formData, prenom: e.target.value })
+                  }
+                  className="text-dark bg-light focus:ring-0 font-body rounded-lg p-2 border"
                 />
               </div>
             </div>
 
             <div className="mb-5 flex flex-row gap-5">
               <div className="flex flex-col w-1/2">
-                <label htmlFor="dateNaissance" className="font-bold mb-2">Date de naissance</label>
+                <label htmlFor="dateNaissance" className="font-bold mb-2">
+                  Date de naissance
+                </label>
                 <input
                   type="date"
                   name="dateNaissance"
                   value={formData.dateNaissance}
-                  onChange={(e) => setFormData({...formData, dateNaissance: e.target.value})}
+                  onChange={(e) =>
+                    setFormData({ ...formData, dateNaissance: e.target.value })
+                  }
                   className="text-dark bg-light focus:ring-0 font-body rounded-lg p-2 border"
                 />
               </div>
-              
+
               <div className="flex flex-col w-1/2">
                 <label className="font-bold mb-2">Genre</label>
                 <div className="flex flex-row gap-5">
                   <div className="flex flex-row gap-2 items-center">
-                    <input 
+                    <input
                       className="h-4 w-4 text-main rounded-md"
-                      type="radio" 
-                      name="genre" 
+                      type="radio"
+                      name="genre"
                       value="0"
                       checked={formData.genre === 0}
-                      onChange={(e) => setFormData({...formData, genre: parseInt(e.target.value)})}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          genre: parseInt(e.target.value),
+                        })
+                      }
                     />
                     <span>Femme</span>
                   </div>
                   <div className="flex flex-row gap-2 items-center">
-                    <input 
+                    <input
                       className="h-4 w-4 text-main rounded-md"
-                      type="radio" 
-                      name="genre" 
+                      type="radio"
+                      name="genre"
                       value="1"
                       checked={formData.genre === 1}
-                      onChange={(e) => setFormData({...formData, genre: parseInt(e.target.value)})}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          genre: parseInt(e.target.value),
+                        })
+                      }
                     />
                     <span>Homme</span>
                   </div>
@@ -209,7 +244,7 @@ const ProfilModif: React.FC = () => {
                   onClick={() => setShowPassword(!showPassword)}
                   className="p-1 transition-transform duration-200 hover:bg-gray-100 rounded-full"
                 >
-                  <FaChevronRight 
+                  <FaChevronRight
                     className={`text-main transition-transform duration-200 ${
                       showPassword ? "rotate-90" : ""
                     }`}
@@ -217,12 +252,14 @@ const ProfilModif: React.FC = () => {
                 </button>
               </div>
               {showPassword && (
-                <input 
-                  type="password" 
-                  name="mdpSimple" 
-                  value={formData.mdpSimple || ''} 
-                  onChange={(e) => setFormData({...formData, mdpSimple: e.target.value})}
-                  className="text-dark bg-light focus:ring-0 font-body rounded-lg p-2 border w-full" 
+                <input
+                  type="password"
+                  name="mdpSimple"
+                  value={formData.mdpSimple || ""}
+                  onChange={(e) =>
+                    setFormData({ ...formData, mdpSimple: e.target.value })
+                  }
+                  className="text-dark bg-light focus:ring-0 font-body rounded-lg p-2 border w-full"
                   placeholder="Nouveau mot de passe"
                 />
               )}
