@@ -11,7 +11,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const result = await axiosInstance.post(
+        const result = await axiosInstance.get(
           "/utilisateur/get-utilisateur",
           {
             headers: { "Content-type": "application/json" },

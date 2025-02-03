@@ -16,7 +16,7 @@ const Profil: React.FC = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const result = await axiosInstance.post(
+        const result = await axiosInstance.get(
           "/utilisateur/get-utilisateur",
           {
             headers: { "Content-type": "application/json" },
