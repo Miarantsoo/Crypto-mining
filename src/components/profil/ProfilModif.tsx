@@ -124,11 +124,13 @@ const ProfilModif: React.FC = () => {
       </div>
 
       <div className="flex flex-row gap-5 w-5/6">
-        <img
-          src={Pfp}
-          alt="Photo de profil"
-          className="w-1/3 h-full object-cover"
-        />
+      <div className="aspect-[3/4]">
+          <img
+            src={Pfp}
+            alt="Photo de profil"
+            className="w-full h-full object-cover"
+          />
+        </div>
         <div className="px-5 py-8 w-2/3">
           <h1 className="font-title text-6xl font-bold uppercase text-dark mb-8">
             Modifier le profil

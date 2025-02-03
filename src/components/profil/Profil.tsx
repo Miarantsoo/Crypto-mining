@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Pfp from "../../assets/img/pfp.jpg";
+import Blank from "../../assets/img/blank-profile.png";
 import { FaArrowLeft, FaMars, FaVenus } from "react-icons/fa6";
 import InfoSection from "./InfoSection";
 import Solde from "../fonds/Solde";
 import { useNavigate } from "react-router";
 import { UserInterface } from "../../context/UserContext.tsx";
 import axiosInstance from "../../api/AxiosConfig.ts";
-import LoadingSpinner from "../../components/loading/LoadingDotsText"; // Create this component
+import LoadingSpinner from "../../components/loading/LoadingDotsText";
 
 const Profil: React.FC = () => {
   const navigation = useNavigate();
@@ -44,11 +45,13 @@ const Profil: React.FC = () => {
   return (
     <div className="flex flex-row h-full">
       <div className="flex flex-row gap-5 w-5/6">
-        <img
-          src={Pfp}
-          alt="Photo de profil"
-          className="w-1/3 h-full object-cover"
-        />
+        <div className="aspect-[3/4]">
+          <img
+            src={Pfp}
+            alt="Photo de profil"
+            className="w-full h-full object-cover"
+          />
+        </div>
         <div className="px-5 py-8 w-2/3">
           <h1 className="font-title text-6xl font-bold uppercase text-dark">
             {user.prenom}
