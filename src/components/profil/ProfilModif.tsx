@@ -38,7 +38,7 @@ const ProfilModif: React.FC = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const result = await axiosInstance.post("/utilisateur/get-utilisateur");
+        const result = await axiosInstance.get("/utilisateur/get-utilisateur");
         if (result.data?.data?.data) {
           const userData = result.data.data.data as UserInterface;
           setUser(userData);
