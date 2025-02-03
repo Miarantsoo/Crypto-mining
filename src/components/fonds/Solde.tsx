@@ -34,7 +34,7 @@ const Solde: React.FC<SoldeProps> = ({ user }) => {
     };
 
     try {
-      const response = await api.post(`fond/${actionType}`, data, {
+      const response = await api.post(`demmande/${actionType}`, data, {
         headers: {
           "Content-Type": "application/json",
         },

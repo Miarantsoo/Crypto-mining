@@ -28,6 +28,7 @@ const Login: React.FC = () => {
 
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     try {
+      console.log(data);
       const response = await axiosInstance.post("/utilisateur/signin", data, {
         headers: {
           "Content-Type": "application/json",

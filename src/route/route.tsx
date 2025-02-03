@@ -16,6 +16,7 @@ import HistoriqueOperation from "../components/achats-ventes/HistoriqueOperation
 import HistoriqueOperationPerso from "../components/achats-ventes/HistoriqueOperationPerso.tsx";
 import AnalyseCommission from "../components/analyse/AnalyseCommission.tsx";
 import LoginAdmin from "../components/access/LoginAdmin.tsx";
+import Demande from "../components/demmande/Demande.tsx";
 
 export const browserRouter = createBrowserRouter([
     {
@@ -150,5 +151,15 @@ export const browserRouter = createBrowserRouter([
     {
         path: "/admin/login",
         element: <LoginAdmin />
+    },
+    {
+        path: "/admin/demande",
+        element: <StandaloneCard />,
+        children: [
+            {
+                path: "",
+                element: <Demande/>
+            }
+        ]
     },
 ]);
