@@ -19,7 +19,7 @@ const Home: React.FC = () => {
         );
 
         if (result.data && result.data.data) {
-          console.log("Utilisateur récupéré :", result.data.data.data);
+          // console.log("Utilisateur récupéré :", result.data.data.data);
           setUser(result.data.data.data as UserInterface);
         }
       } catch (error) {

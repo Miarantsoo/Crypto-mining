@@ -7,6 +7,7 @@ export interface UserInterface {
     genre: number;
     mail: string;
     dateNaissance: string;
+    photoProfile: string;
 }
 
 interface UserContextType {
@@ -14,7 +15,6 @@ interface UserContextType {
     setUser: (user: UserInterface | null) => void;
 }
 
-// Contexte initialisé avec une valeur par défaut
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ value, children }: { value: UserContextType; children: ReactNode }) => {

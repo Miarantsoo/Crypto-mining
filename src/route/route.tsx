@@ -67,14 +67,7 @@ export const browserRouter = createBrowserRouter([
         children: [
             {
                 path: "",
-                element: <Profil user={{
-                    id: 0,
-                    nom: "Bebna",
-                    prenom: "Boy",
-                    dateNaissance: "2024-04-27",
-                    genre: 1,
-                    mail: "miarantsoasuper3000@gmail.com"
-                }}></Profil>
+                element: <Profil />
             },
             {
                 path: "modif",
