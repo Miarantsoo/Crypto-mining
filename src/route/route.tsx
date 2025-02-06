@@ -16,6 +16,7 @@ import HistoriqueOperation from "../components/achats-ventes/HistoriqueOperation
 import HistoriqueOperationPerso from "../components/achats-ventes/HistoriqueOperationPerso.tsx";
 import AnalyseCommission from "../components/analyse/AnalyseCommission.tsx";
 import LoginAdmin from "../components/access/LoginAdmin.tsx";
+import ListeFavorie from "../components/favorie/ListeFavorie.tsx";
 
 export const browserRouter = createBrowserRouter([
     {
@@ -57,6 +58,10 @@ export const browserRouter = createBrowserRouter([
             {
                 path: "portefeuille",
                 element: <Portefeuille />,
+            },
+            {
+                path: "favorie",
+                element: <ListeFavorie />,
             },
         ],
     },
