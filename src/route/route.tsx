@@ -17,6 +17,7 @@ import HistoriqueOperationPerso from "../components/achats-ventes/HistoriqueOper
 import AnalyseCommission from "../components/analyse/AnalyseCommission.tsx";
 import LoginAdmin from "../components/access/LoginAdmin.tsx";
 import ListeFavorie from "../components/favorie/ListeFavorie.tsx";
+import Demande from "../components/demmande/Demande.tsx";
 
 export const browserRouter = createBrowserRouter([
     {
@@ -71,14 +72,7 @@ export const browserRouter = createBrowserRouter([
         children: [
             {
                 path: "",
-                element: <Profil user={{
-                    id: 0,
-                    nom: "Bebna",
-                    prenom: "Boy",
-                    dateNaissance: "2024-04-27",
-                    genre: 1,
-                    mail: "miarantsoasuper3000@gmail.com"
-                }}></Profil>
+                element: <Profil />
             },
             {
                 path: "modif",
@@ -155,5 +149,15 @@ export const browserRouter = createBrowserRouter([
     {
         path: "/admin/login",
         element: <LoginAdmin />
+    },
+    {
+        path: "/admin/demande",
+        element: <StandaloneCard />,
+        children: [
+            {
+                path: "",
+                element: <Demande/>
+            }
+        ]
     },
 ]);

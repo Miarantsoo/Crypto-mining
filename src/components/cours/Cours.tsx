@@ -61,7 +61,6 @@ const Cours = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Sort data by date and memoize
   const chartData = histoCrypto
     .map((histo) => ({
       x: new Date(histo.daty),
@@ -106,7 +105,6 @@ const Cours = () => {
         }
       );
 
-      // Set the alert based on response success
       setAlert({
         message: response.data.message,
         type: response.data.success ? "success" : "failure",

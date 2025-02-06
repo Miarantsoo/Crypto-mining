@@ -11,7 +11,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const result = await axiosInstance.post(
+        const result = await axiosInstance.get(
           "/utilisateur/get-utilisateur",
           {
             headers: { "Content-type": "application/json" },
@@ -19,7 +19,7 @@ const Home: React.FC = () => {
         );
 
         if (result.data && result.data.data) {
-          console.log("Utilisateur récupéré :", result.data.data.data);
+          // console.log("Utilisateur récupéré :", result.data.data.data);
           setUser(result.data.data.data as UserInterface);
         }
       } catch (error) {
