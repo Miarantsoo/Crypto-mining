@@ -19,7 +19,7 @@ const SidebarHeader: React.FC = () => {
 
 	return (
 		<div className="flex flex-row items-center justify-around gap-2">
-			<div className="rounded-full w-16 cursor-pointer">
+			<div className="rounded-full overflow-hidden w-16 cursor-pointer">
 				<Link to="/profil">
 					{/* <img src={BlankProfile} alt="this is the profile" /> */}
 					<AdvancedImage cldImg={img}/>

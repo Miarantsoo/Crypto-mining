@@ -82,7 +82,7 @@ const Login: React.FC = () => {
               message: "Veuillez inserer un e-mail valide",
             },
           })}
-          type="text"
+          type="email"
           placeholder="Email"
           name="email"
           errors={errors}
