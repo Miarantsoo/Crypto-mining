@@ -26,7 +26,7 @@ const Login: React.FC = () => {
   const { setError, setType } = context;
 
   useEffect(() => {
-    if (dataSent !== undefined && dataSent.id !== null) {
+    if (dataSent !== undefined && dataSent !== null && dataSent.id !== null) {
       setError(dataSent.id.message);
       setType(dataSent.id.type);
     }
