@@ -122,6 +122,17 @@ const Cours = () => {
     }
   };
 
+  useEffect(() => {
+    if (allCryptos.length === 0) return;
+  
+    const fetchInterval = setInterval(() => {
+      getLatestValues(allCryptos[selectedIndex]?.id);
+    }, 2000);
+  
+    return () => clearInterval(fetchInterval);
+  }, [selectedIndex, allCryptos]);
+  
+
   return (
     <div className="relative w-full mx-auto flex flex-col justify-center px-5 py-5">
       <div className="mb-5">
