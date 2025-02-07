@@ -295,7 +295,7 @@ const ProfilModif: React.FC = () => {
                             {isSubmitting ? (
                                 <>
                                     <svg
-                                        className="animate-spin h-5 w-5 text-white"
+                                        className="animate-spin h-5 w-5 text-light"
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
                                         viewBox="0 0 24 24"

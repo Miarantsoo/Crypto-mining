@@ -22,7 +22,11 @@ const Cours = () => {
   const [histoCrypto, setHistoCrypto] = useState<HistoCrypto[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const [alert, setAlert] = useState<{ message: string; type: "success" | "failure" } | null>(null);
+  const [alert, setAlert] = useState<{
+    message: string;
+    type: "success" | "failure";
+  } | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchCryptos = async () => {
@@ -83,7 +87,10 @@ const Cours = () => {
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // Prevent default form submission
+    event.preventDefault(); // Prevent default form submission*
+    if(isSubmitting) return;
+
+    setIsSubmitting(true);
 
     const formData = new FormData(event.currentTarget);
     const idUser = formData.get("idUser");
@@ -109,8 +116,9 @@ const Cours = () => {
         message: response.data.message,
         type: response.data.success ? "success" : "failure",
       });
-      
-      console.log(response.data);
+
+      // console.log(response.data);
+      setIsSubmitting(false);
     } catch (error: any) {
       console.error(error);
       setAlert({
@@ -124,14 +132,13 @@ const Cours = () => {
 
   useEffect(() => {
     if (allCryptos.length === 0) return;
-  
+
     const fetchInterval = setInterval(() => {
       getLatestValues(allCryptos[selectedIndex]?.id);
     }, 2000);
-  
+
     return () => clearInterval(fetchInterval);
   }, [selectedIndex, allCryptos]);
-  
 
   return (
     <div className="relative w-full mx-auto flex flex-col justify-center px-5 py-5">
@@ -217,7 +224,7 @@ const Cours = () => {
           </div>
         </div>
 
-        <div className="w-1/3 bg-gradient-to-br from-secondary to-main rounded-lg px-5 py-5 my-8 flex flex-col gap-5 shadow-md justify-around text-light">
+        <div className="w-fit bg-gradient-to-br from-secondary to-main rounded-lg px-5 py-5 my-8 flex flex-col gap-5 shadow-md justify-around text-light">
           <div className="flex flex-row gap-5 items-center border-b border-b-lavender py-5">
             <FaArrowRightArrowLeft className="text-4xl" />
             <h3 className="font-title uppercase text-4xl font-extrabold">
@@ -227,9 +234,7 @@ const Cours = () => {
             </h3>
           </div>
           <div>
-            <p className="font-body text-base font-regular">
-              Valeur unitaire
-            </p>
+            <p className="font-body text-base font-regular">Valeur unitaire</p>
             <p className="font-body text-4xl font-bold">
               {histoCrypto[0] !== undefined ? histoCrypto[0].valeur + " " : ""}€
             </p>
@@ -237,18 +242,57 @@ const Cours = () => {
 
           <form className="flex flex-row gap-2" onSubmit={handleSubmit}>
             <input type="hidden" name="idUser" value={user?.id} />
-            <input type="hidden" name="idCrypto" value={allCryptos[selectedIndex]?.id} />
+            <input
+              type="hidden"
+              name="idCrypto"
+              value={allCryptos[selectedIndex]?.id}
+            />
             <input
               type="number"
               placeholder="Quantité"
               name="quantite"
               className="text-dark bg-light focus:ring-0 font-body rounded-lg"
             />
-            <button
+            {/* <button
               className="rounded-lg w-1/2 bg-secondary hover:bg-secondary-600 text-light px-5 py-3 font-body flex flex-row gap-2 items-center"
               type="submit"
             >
               Acheter
+            </button> */}
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className={`bg-secondary hover:bg-secondary-600 px-5 py-3 font-body rounded-lg text-light text-lg flex items-center justify-center gap-2 w-fit ${
+                isSubmitting ? " cursor-not-allowed" : ""
+              }`}
+            >
+              {isSubmitting ? (
+                <div className="flex flex-row gap-2 items-center text-left">
+                  <svg
+                    className="animate-spin h-5 w-5 text-light"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  Achat...
+                </div>
+              ) : (
+                "Acheter"
+              )}
             </button>
           </form>
         </div>

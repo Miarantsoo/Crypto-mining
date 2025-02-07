@@ -24,9 +24,13 @@ const Portefeuille: React.FC = () => {
     quantite: number;
   }
 
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
   const { user } = useUserContext();
 
-  const [portefeuilleData, setPortefeuilleData] = useState<PortfolioData[] | null>(null);
+  const [portefeuilleData, setPortefeuilleData] = useState<
+    PortfolioData[] | null
+  >(null);
   const [sortConfig, setSortConfig] = useState<{
     key: keyof PortfolioData | "valeurTotale" | "crypto.nom";
     direction: "asc" | "desc";
@@ -53,6 +57,7 @@ const Portefeuille: React.FC = () => {
   }, [user]);
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
+    setIsSubmitting(true);
     try {
       const response = await api.post("/mvt-crypto/sell", data); // Add your POST endpoint
       setAlert({
@@ -60,6 +65,7 @@ const Portefeuille: React.FC = () => {
         message: response.data.message,
       });
       fetchData();
+      setIsSubmitting(false);
     } catch (error) {
       setAlert({
         type: "error",
@@ -69,9 +75,15 @@ const Portefeuille: React.FC = () => {
     }
   };
 
-  const handleSort = (key: keyof PortfolioData | "valeurTotale" | "crypto.nom") => {
+  const handleSort = (
+    key: keyof PortfolioData | "valeurTotale" | "crypto.nom"
+  ) => {
     let direction: "asc" | "desc" = "asc";
-    if (sortConfig && sortConfig.key === key && sortConfig.direction === "asc") {
+    if (
+      sortConfig &&
+      sortConfig.key === key &&
+      sortConfig.direction === "asc"
+    ) {
       direction = "desc";
     }
     setSortConfig({ key, direction });
@@ -105,7 +117,9 @@ const Portefeuille: React.FC = () => {
       })
     : null;
 
-  const getSortIcon = (key: keyof PortfolioData | "valeurTotale" | "crypto.nom") => {
+  const getSortIcon = (
+    key: keyof PortfolioData | "valeurTotale" | "crypto.nom"
+  ) => {
     if (!sortConfig || sortConfig.key !== key)
       return <FaSort className="inline ml-1 text-gray-400" />;
     return sortConfig.direction === "asc" ? (
@@ -124,7 +138,8 @@ const Portefeuille: React.FC = () => {
           Portefeuille de cryptomonnaies
         </h1>
         <p className="font-body text-slate-500">
-          Cette page recense la quantité de toutes les cryptomonnaies que vous possédez actuellement.
+          Cette page recense la quantité de toutes les cryptomonnaies que vous
+          possédez actuellement.
         </p>
       </div>
 
@@ -190,14 +205,22 @@ const Portefeuille: React.FC = () => {
                         idUser: user?.id || 0,
                         idCrypto: item.crypto.id,
                         quantite: parseFloat(
-                          (form.elements.namedItem("quantite") as HTMLInputElement).value
+                          (
+                            form.elements.namedItem(
+                              "quantite"
+                            ) as HTMLInputElement
+                          ).value
                         ),
                       };
                       onSubmit(formData);
                     }}
                   >
                     <input type="hidden" name="idUser" value={user?.id} />
-                    <input type="hidden" name="idCrypto" value={item.crypto.id} />
+                    <input
+                      type="hidden"
+                      name="idCrypto"
+                      value={item.crypto.id}
+                    />
                     <input
                       type="number"
                       name="quantite"
@@ -206,9 +229,38 @@ const Portefeuille: React.FC = () => {
                     />
                     <button
                       type="submit"
-                      className="px-4 py-2 bg-main text-light hover:bg-main-700 rounded-lg"
+                      disabled={isSubmitting}
+                      className={`bg-main hover:bg-main-700 px-5 h-11 font-body rounded-xl text-light text-lg flex items-center justify-center gap-2 ${
+                        isSubmitting ? "opacity-75 cursor-not-allowed" : ""
+                      }`}
                     >
-                      Vendre
+                      {isSubmitting ? (
+                        <>
+                          <svg
+                            className="animate-spin h-5 w-5 text-light"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
+                          </svg>
+                          Vente...
+                        </>
+                      ) : (
+                        "Vendre"
+                      )}
                     </button>
                   </form>
                 </td>
