@@ -11,6 +11,7 @@ import { HiInformationCircle } from "react-icons/hi";
 const Access: React.FC = () => {
 
     const [error, setError] = useState<string>("");
+    const [type, setType] = useState<string>("");
 
     const location = useLocation();
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -43,11 +44,11 @@ const Access: React.FC = () => {
             </div>
             <div className="w-1/2 my-20 mr-36 p-10 flex items-center justify-center">
                 <AnimatePresence mode="wait">
-                    <ErrorContext.Provider value={{error, setError}}>
+                    <ErrorContext.Provider value={{error, type, setType, setError}}>
                         {error !== "" &&
                             <Alert
                                 icon={HiInformationCircle}
-                                color="failure"
+                                color={type}
                                 onDismiss={() => {
                                     setError("");
                                     if (timeoutRef.current) {

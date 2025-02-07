@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaArrowRight } from "react-icons/fa6";
 import Input from "../form/Input";
@@ -7,6 +7,9 @@ import axiosInstance from "../../api/AxiosConfig";
 import { useErrorContext } from "../../context/ErrorContext";
 import { MutatingDots } from "react-loader-spinner";
 import { AxiosError } from "axios";
+import { SignupRetour } from "../../types/form";
+import { Alert } from "flowbite-react";
+import { useEffect, useState } from "react";
 
 
 type FormFields = {
@@ -17,8 +20,18 @@ type FormFields = {
 const Login: React.FC = () => {
   const context = useErrorContext();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const { setError } = context;
+  const dataSent = location.state as SignupRetour;
+  const { setError, setType } = context;
+
+  useEffect(() => {
+    if (dataSent !== undefined && dataSent.id !== null) {
+      setError(dataSent.id.message);
+      setType(dataSent.id.type);
+    }
+  }, [dataSent, setError, setType]);
+
 
   const {
     register,
@@ -42,6 +55,7 @@ const Login: React.FC = () => {
     } catch (error) {
       //@ts-ignore
       setError(error.response.data.error.message);
+      setType("failure");
     }
   };
 

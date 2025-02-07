@@ -5,13 +5,7 @@ import { useErrorContext } from "../../context/ErrorContext";
 import axiosInstance from "../../api/AxiosConfig";
 import { useLocation, useNavigate } from "react-router";
 import { MutatingDots } from "react-loader-spinner";
-
-interface VerificationId {
-  id: {
-    data: number;
-    message: string;
-  };
-}
+import { VerificationId } from "../../types/form";
 
 const Verification: React.FC = () => {
   const location = useLocation();
