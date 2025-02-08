@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaChevronRight, FaTimes } from "react-icons/fa";
-import { useNavigate } from "react-router";
+import { redirect, useNavigate } from "react-router";
 import { UserInterface } from "../../context/UserContext";
 import Blank from "../../assets/img/blank-profile.png";
 import axiosInstance from "../../api/AxiosConfig";
@@ -57,7 +57,7 @@ const ProfilModif: React.FC = () => {
                     });
                 }
             } catch (error) {
-                console.error("Error fetching user:", error);
+                redirect("/")
             } finally {
                 setLoading(false);
             }

@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, redirect } from "react-router-dom";
 import Sidebar from "../components/sidebar/Sidebar";
 import Bg from "./../assets/img/bg.jpg";
 import { useEffect, useState } from "react";
@@ -23,10 +23,7 @@ const Home: React.FC = () => {
           setUser(result.data.data.data as UserInterface);
         }
       } catch (error) {
-        console.error(
-          "Erreur lors de la récupération de l'utilisateur :",
-          error
-        );
+        redirect("/")
       }
     };
 

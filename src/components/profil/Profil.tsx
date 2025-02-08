@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {FaArrowLeft, FaMars, FaVenus} from "react-icons/fa6";
 import InfoSection from "./InfoSection";
 import Solde from "../fonds/Solde";
-import {useNavigate} from "react-router";
+import {redirect, useNavigate} from "react-router";
 import {UserInterface} from "../../context/UserContext.tsx";
 import axiosInstance from "../../api/AxiosConfig.ts";
 import LoadingSpinner from "../../components/loading/LoadingDotsText";
@@ -31,10 +31,7 @@ const Profil: React.FC = () => {
                     setUser(result.data.data.data as UserInterface);
                 }
             } catch (error) {
-                console.error(
-                    "Erreur lors de la récupération de l'utilisateur :",
-                    error
-                );
+                redirect("/")
             }
         };
 
