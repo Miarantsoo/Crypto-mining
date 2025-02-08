@@ -51,6 +51,7 @@ const Verification: React.FC = () => {
           "Verification failed. Please try again.";
         setError(errorMessage);
         setIsSubmitting(false)
+        setCode("")
       }
     };
 
