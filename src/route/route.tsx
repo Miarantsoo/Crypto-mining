@@ -18,6 +18,7 @@ import AnalyseCommission from "../components/analyse/AnalyseCommission.tsx";
 import LoginAdmin from "../components/access/LoginAdmin.tsx";
 import ListeFavorie from "../components/favorie/ListeFavorie.tsx";
 import Demande from "../components/demmande/Demande.tsx";
+import PageNotFound from "../pages/PageNotFound.tsx";
 
 export const browserRouter = createBrowserRouter([
     {
@@ -160,4 +161,8 @@ export const browserRouter = createBrowserRouter([
             }
         ]
     },
+    {
+        path: "*",
+        element: <PageNotFound />
+    }
 ]);

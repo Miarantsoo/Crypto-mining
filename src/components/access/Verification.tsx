@@ -50,6 +50,8 @@ const Verification: React.FC = () => {
           error.response?.data?.error?.message ||
           "Verification failed. Please try again.";
         setError(errorMessage);
+        setIsSubmitting(false)
+        setCode("")
       }
     };
 
