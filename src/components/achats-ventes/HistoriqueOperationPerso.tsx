@@ -3,10 +3,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import GenericTable from "../generic/GenericTable";
 import { FaArrowLeft } from "react-icons/fa6";
+import { UserInterface } from "../../context/UserContext";
+import axiosInstance from "../../api/AxiosConfig";
 
 const HistoriqueOperationPerso = () => {
   const { idUser } = useParams();
   const [resultats, setResultats] = useState();
+  const [utilisateur, setUtilisateur] = useState<UserInterface | null>();
 
   const navigation = useNavigate();
 
@@ -37,12 +40,25 @@ const HistoriqueOperationPerso = () => {
     fetchHistoriquePersoData();
   }, []);
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axiosInstance.get(`/utilisateur/by-id/${idUser}`);
+        setUtilisateur(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchUser();
+  }, []);
+
   return (
     <div className="w-full h-full flex flex-col px-8 py-8">
       <div className="mb-5 flex flew-row justify-between items-start">
         <div className="">
           <h1 className="font-title font-bold uppercase text-dark text-4xl">
-            User {idUser}
+            { utilisateur?.prenom } { utilisateur?.nom }
           </h1>
           <p className="font-body text-slate-500">
             Cette page liste l'entièreté des achats et ventes effectués par tous

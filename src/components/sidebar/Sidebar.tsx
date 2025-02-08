@@ -1,4 +1,4 @@
-import { FaWallet, FaChartLine, FaMagnifyingGlassDollar, FaMoneyBillTransfer, FaSackDollar, FaMoneyBills } from "react-icons/fa6";
+import { FaWallet, FaChartLine, FaMagnifyingGlassDollar, FaMoneyBillTransfer, FaSackDollar, FaMoneyBills, FaStar } from "react-icons/fa6";
 import SidebarMenu from "./SidebarMenu";
 import SidebarHeader from "./SidebarHeader";
 import {useUserContext} from "../../context/UserContext.tsx";
@@ -15,7 +15,7 @@ const Sidebar: React.FC = () => {
 		{icon: <FaMoneyBills className="w-7 h-6"/>, text: "Somme des achats et ventes", direction: "/filtre-achat-vente"},
 		{icon: <FaMagnifyingGlassDollar className="w-7 h-6"/>, text: "Analyse des cryptos", direction: "/analyse/crypto"},
 		{icon: <FaSackDollar className="w-7 h-6"/>, text: "Analyse des commissions", direction: "/analyse/commissions"},
-		{icon: <FaMoneyBills className="w-7 h-6"/>, text: "Favorie", direction: "/home/favorie"},
+		{icon: <FaStar className="w-7 h-6"/>, text: "Favori", direction: "/home/favorie"},
 
 	]
 

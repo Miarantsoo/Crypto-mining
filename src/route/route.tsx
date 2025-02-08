@@ -149,7 +149,13 @@ export const browserRouter = createBrowserRouter([
     },
     {
         path: "/admin/login",
-        element: <LoginAdmin />
+        element: <Access />,
+        children: [
+            {
+                path: "",
+                element: <LoginAdmin></LoginAdmin>
+            }
+        ]
     },
     {
         path: "/admin/demande",
@@ -157,7 +163,7 @@ export const browserRouter = createBrowserRouter([
         children: [
             {
                 path: "",
-                element: <Demande/>
+                element: <Demande />
             }
         ]
     },

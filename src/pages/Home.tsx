@@ -42,7 +42,7 @@ const Home: React.FC = () => {
         <aside className="w-1/5 h-fit">
           <Sidebar />
         </aside>
-        <main className="bg-light w-4/5 mr-3 my-3 p-5 rounded-3xl overflow-y-auto">
+        <main className="bg-light w-4/5 h-dvh overflow-y-scroll mr-3 my-3 p-5 rounded-3xl overflow-y-auto">
           <Outlet />
         </main>
       </div>

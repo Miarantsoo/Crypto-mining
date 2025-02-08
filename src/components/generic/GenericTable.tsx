@@ -1,16 +1,16 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { useNavigate } from "react-router";
 
 type TableData = {
   headers: string[];
   tableContents: {
-    value: string | number | boolean | Date;
+    value: string | number | boolean | Date | ReactNode;
     redirect?: string | null;
   }[][];
 };
 
 const GenericTable: React.FC<TableData> = ({ headers, tableContents }) => {
-  const renderItem = (item: string | number | boolean | Date) => {
+  const renderItem = (item: string | number | boolean | Date | ReactNode) => {
     if (item instanceof Date) {
       return item.toLocaleDateString("fr-FR", {
         day: "numeric",
@@ -43,7 +43,7 @@ const GenericTable: React.FC<TableData> = ({ headers, tableContents }) => {
         <thead className="border-b bg-lavender-50 border-b-lavender">
           <tr>
             {headers.map((header) => (
-              <th className="p-4 w-1/6 text-lg text-main font-extrabold cursor-pointer">
+              <th className="p-4 w-max text-lg text-main font-extrabold cursor-pointer">
                 {header}
               </th>
             ))}

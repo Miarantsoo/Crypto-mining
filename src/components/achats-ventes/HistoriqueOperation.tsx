@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
-import Bg from "../../assets/img/bg.jpg";
 import GenericTable from "../generic/GenericTable";
-import { FaArrowLeft } from "react-icons/fa6";
 import { useNavigate } from "react-router";
+import { UserInterface } from "../../context/UserContext";
+import axiosInstance from "../../api/AxiosConfig";
+import { Cloudinary } from "@cloudinary/url-gen";
+import { auto } from "@cloudinary/url-gen/actions/resize";
+import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
+import { AdvancedImage } from "@cloudinary/react";
 
 interface ICrytoData {
   id: number;
@@ -21,6 +25,21 @@ const HistoriqueOperation: React.FC = () => {
 
   const [min, setMin] = useState<string>("");
   const [max, setMax] = useState<string>("");
+
+  const [allUsers, setAllUsers] = useState<UserInterface[]>([]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axiosInstance.get("/utilisateur/all");
+        setAllUsers(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
 
   useEffect(() => {
     const fetchCryptoData = async () => {
@@ -121,7 +140,27 @@ const HistoriqueOperation: React.FC = () => {
     setMax(event.target.value);
   };
 
-  const navigation = useNavigate();
+  const cld = new Cloudinary({ cloud: { cloudName: "djaekualm" } });
+
+  const findUser = (id: number) => {
+    const rowUser = allUsers.find((user) => user.id === id);
+    // console.log(rowUser?.photoProfile);
+    const img = cld
+      .image(`${rowUser?.photoProfile}`)
+      .format("auto")
+      .quality("auto")
+      .resize(auto().gravity(autoGravity()).width(500).height(500));
+    return (
+      <div className="flex flex-row items-center gap-5">
+        <div className="rounded-full overflow-hidden w-16 cursor-pointer">
+          <AdvancedImage cldImg={img} />
+        </div>
+        <span className="font-body text-dark text-sm">
+          {rowUser?.prenom} <br /> {rowUser?.nom}
+        </span>
+      </div>
+    );
+  };
 
   return (
     <div className="w-full h-full flex flex-col">
@@ -136,15 +175,6 @@ const HistoriqueOperation: React.FC = () => {
               tous les utilisateurs.
             </p>
           </div>
-          {/* <div className="flex flex-col">
-            <button
-              className="mt-5 mx-7 bg-main hover:bg-main-700 px-5 py-6 font-body rounded-3xl h-10 flex items-center justify-center text-light gap-4"
-              onClick={() => navigation(-1)}
-            >
-              <FaArrowLeft className="text-light text-2xl ml-2 inline-block" />
-              Retour
-            </button>
-          </div> */}
         </div>
         <form className="mb-5">
           <div className="w-fit flex flex-row gap-5">
@@ -225,7 +255,7 @@ const HistoriqueOperation: React.FC = () => {
         {resultats && resultats.length > 0 && (
           <GenericTable
             headers={[
-              "Id Utilisateur",
+              "Utilisateur",
               "Date",
               "Crypto",
               "Achat",
@@ -234,7 +264,7 @@ const HistoriqueOperation: React.FC = () => {
             ]}
             tableContents={resultats.map((obj) => [
               {
-                value: obj.idUser + "",
+                value: findUser(obj.idUser),
                 redirect: `/historique-operation/${obj.idUser}`,
               },
               { value: new Date(obj.daty), redirect: null },
