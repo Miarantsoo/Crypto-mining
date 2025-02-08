@@ -39,15 +39,17 @@ const Signup = () => {
         },
       });
 
-
       console.log(response.data);
-      
+
       if (response.data.status === "success") {
         navigate("/login", {
-            state: {
-                id: {message: response.data.data.message, type: response.data.status}
-            }
-        })
+          state: {
+            id: {
+              message: response.data.data.message,
+              type: response.data.status,
+            },
+          },
+        });
       } else {
         setError(response.data.data.message);
         setType("failure");
@@ -98,7 +100,12 @@ const Signup = () => {
             })}
             errors={errors}
           />
-          <Input name="nom" type="text" placeholder="Nom" />
+          <Input
+            name="nom"
+            type="text"
+            placeholder="Nom"
+            formControl={register("nom", {})}
+          />
         </div>
         <div className="w-full flex flex-row gap-1">
           <Input
