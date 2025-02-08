@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaChevronRight, FaTimes } from "react-icons/fa";
-import { redirect, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { UserInterface } from "../../context/UserContext";
-import Blank from "../../assets/img/blank-profile.png";
 import axiosInstance from "../../api/AxiosConfig";
-import Pfp from "../../assets/img/pfp.jpg";
 import LoadingSpinner from "../../components/loading/LoadingDotsText";
 import {Cloudinary} from "@cloudinary/url-gen";
 import {auto} from "@cloudinary/url-gen/actions/resize";
@@ -57,7 +55,7 @@ const ProfilModif: React.FC = () => {
                     });
                 }
             } catch (error) {
-                redirect("/")
+                navigation("/")
             } finally {
                 setLoading(false);
             }

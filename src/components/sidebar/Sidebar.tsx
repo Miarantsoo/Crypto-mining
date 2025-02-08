@@ -2,6 +2,7 @@ import { FaWallet, FaChartLine, FaMagnifyingGlassDollar, FaMoneyBillTransfer, Fa
 import SidebarMenu from "./SidebarMenu";
 import SidebarHeader from "./SidebarHeader";
 import {useUserContext} from "../../context/UserContext.tsx";
+import SidebarFooter from "./SidebarFooter.tsx";
 
 const Sidebar: React.FC = () => {
 	const { user } = useUserContext();
@@ -29,6 +30,9 @@ const Sidebar: React.FC = () => {
 				[&::-webkit-scrollbar]:hidden  /* Hide Chrome/Safari scrollbar */
 				[scrollbar-width:none] /* Hide Firefox scrollbar */">
 				<SidebarMenu menu={menu} />
+			</div>
+			<div>
+				<SidebarFooter/>
 			</div>
 		</div>
 	);
