@@ -16,6 +16,7 @@ const Input: React.FC<InputProps> = ({
   formControl,
   errors = {},
   fullFormat = true, // Default to true
+  ...rep
 }) => {
   const error = errors[name];
 
@@ -33,6 +34,7 @@ const Input: React.FC<InputProps> = ({
         type={type}
         placeholder={placeholder}
         {...formControl}
+        {...rep}
         aria-invalid={error ? "true" : "false"}
       />
       <span role="alert" className="font-body text-xl text-red-500">
