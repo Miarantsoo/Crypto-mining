@@ -84,6 +84,7 @@ const LoginAdmin = () => {
           placeholder="Identifiant"
           name="email"
           errors={errors}
+          value="admin"
         />
         <Input
           formControl={register("mdp", {
@@ -93,6 +94,7 @@ const LoginAdmin = () => {
           placeholder="Password"
           name="mdp"
           errors={errors}
+          value="admin"
         />
         <div className="flex w-full align-center justify-end my-2">
           <button className="bg-main p-5 font-body rounded-3xl w-fit h-10 flex items-center justify-center text-light">
