@@ -6,11 +6,12 @@ import { useEffect, useRef, useState } from "react";
 import { Alert } from "flowbite-react"
 import { HiInformationCircle } from "react-icons/hi";
 import Verification from "../components/access/Verification";
+import { useNavigate } from "react-router";
 
 const CodeVerification: React.FC = () => {
 
     const [error, setError] = useState<string>("");
-
+    const navigate = useNavigate();
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
@@ -22,6 +23,12 @@ const CodeVerification: React.FC = () => {
             timeoutRef.current = setTimeout(() => {
                 setError("");
             }, 5000);
+
+            if (error == "Un email de réinitialisation a été envoyé") {
+                setTimeout(() => {
+                    navigate("/login")
+                }, 3000)
+            }
         }
 
 

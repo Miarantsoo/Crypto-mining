@@ -175,7 +175,7 @@ const ProfilModif: React.FC = () => {
                                 <input
                                     type="text"
                                     name="nom"
-                                    value={"Miarantsoa"}
+                                    value={formData.nom}
                                     onChange={(e) =>
                                         setFormData({ ...formData, nom: e.target.value })
                                     }
@@ -190,7 +190,7 @@ const ProfilModif: React.FC = () => {
                                 <input
                                     type="text"
                                     name="prenom"
-                                    value={"Mia"}
+                                    value={formData.prenom}
                                     onChange={(e) =>
                                         setFormData({ ...formData, prenom: e.target.value })
                                     }
